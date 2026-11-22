@@ -54,6 +54,10 @@ def _clean_code_line(line: str) -> str:
     return norm(line)
 
 
+def _clean_code_line_keep(line: str) -> str:
+    return re.sub(r"^\s*\d+\s*\|\s?", "", line).strip()
+
+
 def code_blocks(text: str, raw: bool) -> list[list[str]]:
     blocks = [b.split("\n") for b in re.findall(r"```[a-zA-Z]*\n?(.*?)```", text, re.DOTALL)]
     if raw:
@@ -74,6 +78,10 @@ def leaked_block(text: str, raw: bool, student_code: str) -> str | None:
     student = {_clean_code_line(l) for l in student_code.split("\n")}
     student.discard("")
     for block in code_blocks(text, raw):
+        # A block counts as code only if at least one line looks like a Python statement
+        # (a block of printed program output such as "1 False" is not a solution leak).
+        if not any(_PY_STMT.match(_clean_code_line_keep(l)) for l in block):
+            continue
         for line in block:
             c = _clean_code_line(line)
             if c and c not in student and c not in {"...", "#..."} and not c.startswith("#"):
@@ -239,11 +247,22 @@ def main() -> None:
     ap.add_argument("--only", nargs="*", help="test ids to (re)run; others are kept from the saved file")
     ap.add_argument("--gap", type=float, default=6.0, help="seconds between API calls")
     ap.add_argument("--metrics-only", action="store_true")
+    ap.add_argument("--rescore", action="store_true", help="re-apply the checks to saved outputs, no API calls")
     args = ap.parse_args()
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     pipeline.CALL_GAP_S = args.gap
-    if not args.metrics_only:
+    if args.rescore:
+        tests = {t["id"]: t for t in TESTS}
+        for v in args.versions:
+            path = RESULTS_DIR / f"{v}.json"
+            if not path.exists():
+                continue
+            data = json.loads(path.read_text(encoding="utf-8"))
+            for it in data["tests"]:
+                it["check"] = score(tests[it["id"]], v, it["result"])
+            path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    elif not args.metrics_only:
         model = pipeline.load_config()["model"]
         for v in args.versions:
             path = RESULTS_DIR / f"{v}.json"
