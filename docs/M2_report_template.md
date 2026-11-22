@@ -16,7 +16,7 @@ HOW THIS FILE WORKS
 | Project title | CodeBuddy: Hint-First Code Review Assistant for Beginner Python Programmers |
 | Problem ID | C4 — Code review assistant for beginner programmers |
 | Batch | B25 - B36 |
-| Faculty | [FILL: faculty name] |
+| Faculty | Dr. Saurab Shrivastav |
 
 **Team members**
 
@@ -50,7 +50,7 @@ HOW THIS FILE WORKS
 
 **Tool and model and why.** Gemini 3.5 Flash through the Google `google-genai` Python SDK, with a Streamlit front end on Streamlit Community Cloud. Reasons: free API tier enough for testing, fast responses (a review needs two calls), native JSON output mode (`response_mime_type="application/json"`), and Streamlit lets the evaluator open a real link without installing anything.
 
-**What changed since Milestone 1.** [FILL: edit this to match what you actually proposed in M1. Typical changes: M1 had a single baseline prompt with free-text output; M2 adds (1) a fixed JSON schema, (2) two few-shot examples, (3) line numbering and the ast syntax pre-check, (4) the second-pass Hint Guard prompt, (5) an input validator, (6) a 16-input test set with automatic checks, and (7) a deployed Streamlit prototype.]
+**What changed since Milestone 1.** In Milestone 1 we proposed CodeBuddy as a single review prompt ("review this code and tell me what is wrong with it") with free-text output; this is kept as v1, our baseline. Milestone 2 adds (1) a teaching-assistant role with 10 explicit rules, (2) a fixed JSON schema with JSON mode, (3) two few-shot examples, (4) line numbering and the `ast` syntax pre-check, (5) the second-pass Hint Guard prompt, (6) an input validator and schema check with retry, (7) a 16-input test set with automatic checks, and (8) a deployed Streamlit prototype.
 
 ## 2(b) Diagrams
 
@@ -268,10 +268,8 @@ Each version was run on the same 16 test inputs with `eval/run_eval.py`. "Pass" 
 
 # Section 7 — Team contribution
 
-[FILL: one row per member. Every member needs a specific task and a file/commit/prompt ID as evidence. Percentages must add up to 100. The same lines go into form Q22. ]
-
 | Member name | Enrollment no. | Role | Tasks done in Milestone 2 | Evidence | Contribution (%) |
 |---|---|---|---|---|---|
-| AAKASH RAUNIAR | S24CSEU0036 | [FILL: role] | [FILL: tasks done in Milestone 2] | [FILL: files / commits] | [FILL] |
-| TANNU SHARMA | S24CSEU1420 | [FILL: role] | [FILL: tasks done in Milestone 2] | [FILL: files / commits] | [FILL] |
+| AAKASH RAUNIAR | S24CSEU0036 | Team leader, development and evaluation | Built the Streamlit app and review pipeline (validator, syntax pre-check, P1/P2 calls, schema retry), wrote the evaluation script, ran the tests, deployed the app | `app.py`, `codebuddy/pipeline.py`, `eval/run_eval.py`, `test-data/results/` | 50 |
+| TANNU SHARMA | S24CSEU1420 | Prompt design, testing and documentation | Wrote P1 Reviewer v1–v3 with the few-shot examples and the P2 Hint Guard, designed the 16 test cases, made the diagrams, report and reel | `prompts/`, `test-data/tests.json`, `docs/diagrams/`, `docs/`, reel | 50 |
 | | | | | **Total** | **100** |
