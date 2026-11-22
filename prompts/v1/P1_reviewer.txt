@@ -1,0 +1,9 @@
+# P1 Reviewer - v1 (baseline)
+# Tool/model: Gemini 2.5 Flash via google-genai SDK | temperature: default | JSON mode: off
+# System prompt: none | Examples: 0 | Output format: free text
+# Variables: {code} = the student's raw code, exactly as pasted
+--- SYSTEM PROMPT ---
+--- USER PROMPT TEMPLATE ---
+Review this code and tell me what is wrong with it:
+
+{code}

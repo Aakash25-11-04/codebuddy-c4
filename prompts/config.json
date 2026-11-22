@@ -1,0 +1,10 @@
+{
+  "model": "gemini-2.5-flash",
+  "versions": {
+    "v1": {"p1_file": "prompts/v1/P1_reviewer.txt", "temperature": null, "json_mode": false, "numbered_code": false, "syntax_check": false, "validator": false, "schema_retry": false, "guard": false},
+    "v2": {"p1_file": "prompts/v2/P1_reviewer.txt", "temperature": null, "json_mode": false, "numbered_code": false, "syntax_check": false, "validator": false, "schema_retry": false, "guard": false},
+    "v3": {"p1_file": "prompts/v3/P1_reviewer.txt", "temperature": 0.2, "json_mode": true, "numbered_code": true, "syntax_check": true, "validator": false, "schema_retry": false, "guard": false},
+    "v4": {"p1_file": "prompts/final/P1_reviewer.txt", "p2_file": "prompts/final/P2_hint_guard.txt", "temperature": 0.2, "guard_temperature": 0.0, "json_mode": true, "numbered_code": true, "syntax_check": true, "validator": true, "schema_retry": true, "guard": true}
+  },
+  "validator": {"max_lines": 150, "max_chars": 6000}
+}
