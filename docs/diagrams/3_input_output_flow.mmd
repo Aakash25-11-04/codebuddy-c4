@@ -1,0 +1,23 @@
+flowchart LR
+    subgraph IN["Inputs"]
+      I1["code (text)"]
+      I2["student_question (optional)"]
+    end
+    subgraph PRE["Pre-processing (Python)"]
+      M1["numbered_code"]
+      M2["syntax_check: OK or SyntaxError on line N"]
+    end
+    subgraph OUT1["P1 output (JSON)"]
+      O1["status, summary, issues[line, type, severity, what, why, hint],<br/>refused_solution_request, praise, next_step"]
+    end
+    subgraph OUT2["P2 output (JSON)"]
+      O2["same fields, leaks rewritten<br/>+ guard{leaks_found, fields_rewritten}"]
+    end
+    I1 --> M1
+    I1 --> M2
+    M1 --> O1
+    M2 --> O1
+    I2 --> O1
+    O1 --> O2
+    M1 --> O2
+    O2 --> V["UI: summary, issue cards, hints, praise, next step"]

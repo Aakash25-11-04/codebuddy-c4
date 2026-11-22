@@ -1,0 +1,31 @@
+# Microsoft Form answers (team leader fills once, in one sitting)
+
+Every number must match the PDF exactly.
+
+| Q | Question | Answer |
+|---|---|---|
+| 1 | Team ID | PE-B25-10 |
+| 2 | Team name | Decentralized Vision |
+| 3 | Project title | CodeBuddy: Hint-First Code Review Assistant for Beginner Python Programmers |
+| 4–5 | Leader name, enrollment no. | AAKASH RAUNIAR, S24CSEU0036 |
+| 6 | Group (batch) | B25 - B36 |
+| 7 | All enrollment numbers | S24CSEU0036<br>S24CSEU1420 |
+| 8 | Project type (max 2) | Pick the options closest to: "Web app / prototype" and "Prompt workflow / chaining" |
+| 9 | Main AI tool and model | Gemini 3.5 Flash via Google Gemini API (google-genai SDK), Streamlit app |
+| 10 | Number of prompts | **2** (P1 Reviewer, P2 Hint Guard) |
+| 11 | Prototype link | [FILL: https://<your-app>.streamlit.app] — test in incognito |
+| 12 | Repository link | https://github.com/Aakash25-11-04/codebuddy-c4 — test in incognito |
+| 13 | Reel link | [FILL] |
+| 14 | Reel length | [FILL: exact seconds, 90–150] |
+| 15 | Supporting document type | Technical report |
+| 16 | Upload supporting doc | `DecentralizedVision_TechnicalReport.pdf` |
+| 17 | Number of test inputs | **16** |
+| 18 | Number of prompt versions | **4** (v1, v2, v3, v4 final) |
+| 19 | Prototype status | "All modules working" ONLY if every row in the Section 3 status table says Working; otherwise "Some modules working" |
+| 20 | Working modules | Copy the names of modules marked Working, one per line: Input validator / Syntax pre-check / P1 Reviewer / Schema check + retry / P2 Hint Guard / Streamlit UI / Evaluation script |
+| 21 | Upload M2 PDF | `M2_PE-B25-10_CodeBuddy.pdf` (max 10 MB) |
+| 22 | Main task of each member | `S24CSEU1234 – Name – Task`, same as Section 7 |
+| 23 | Anything else | "Prototype needs no login. Paste Python code, choose v4 (final) and press Review. The version selector lets you compare v1–v4. If the app is asleep, press 'Yes, get this app back up' and wait ~30 s." |
+| 24 | Confirmation | Tick only after every member agreed to the contribution table |
+
+Before submitting: open all 3 links in an incognito window; search both PDFs for "[FILL" and "[[AUTO" (there must be none left); check the PDFs are under 10 MB.

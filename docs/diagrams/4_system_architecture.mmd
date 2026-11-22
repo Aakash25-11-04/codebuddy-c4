@@ -1,0 +1,15 @@
+flowchart LR
+    User["Student / evaluator<br/>(browser)"] --> App
+    subgraph Cloud["Streamlit Community Cloud"]
+      App["app.py (Streamlit UI)"] --> Pipe["codebuddy/pipeline.py<br/>validator, ast check, numbering,<br/>P1 -> schema check -> P2"]
+      Pipe --> PF["prompts/final/*.txt<br/>+ prompts/config.json"]
+      Sec["st.secrets: GEMINI_API_KEY<br/>(never in the repo)"]
+    end
+    Pipe -- "HTTPS (google-genai SDK)" --> Gem["Google Gemini API<br/>gemini-2.5-flash"]
+    Sec -.-> Pipe
+    subgraph Local["Evaluation (run locally)"]
+      Ev["eval/run_eval.py"] --> TD["test-data/tests.json (16 inputs)"]
+      Ev --> Res["test-data/results/*.json"]
+      Ev --> Met["docs/metrics.md"]
+    end
+    Ev --> Pipe

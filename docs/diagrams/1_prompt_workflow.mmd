@@ -1,0 +1,10 @@
+flowchart LR
+    A["Student pastes Python code<br/>+ optional question"] --> B{"Input validator<br/>(code, no LLM)<br/>empty? > 150 lines?"}
+    B -- invalid --> X["Friendly message:<br/>paste a Python program"]
+    B -- ok --> C["Syntax pre-check<br/>ast.parse (code is never run)"]
+    C --> D["Add line numbers"]
+    D --> P1["P1 Reviewer<br/>Gemini 2.5 Flash, temp 0.2<br/>role + 10 rules + 2 examples<br/>JSON mode"]
+    P1 --> E{"Schema valid?"}
+    E -- no --> R["Retry P1 once"] --> E
+    E -- yes --> P2["P2 Hint Guard<br/>Gemini 2.5 Flash, temp 0<br/>finds and rewrites solution leaks"]
+    P2 --> UI["Streamlit UI<br/>issue cards, hint revealed on click,<br/>praise + next step"]
