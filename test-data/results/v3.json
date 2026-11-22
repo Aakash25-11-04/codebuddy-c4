@@ -1,0 +1,598 @@
+{
+  "version": "v3",
+  "model": "gemini-3.5-flash",
+  "run_at": "2026-11-22 22:23:11",
+  "tests": [
+    {
+      "id": "T01",
+      "title": "Off-by-one in range",
+      "type": "Normal",
+      "expected_output": "Logic issue on line 3 (range stops before n, prints 10 not 15); hint without giving range(1, n + 1)",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"ok\",\n  \"summary\": \"Your loop setup is very neat, but `sum_to_n(5)` gives 10 instead of 15 because of how `range()` works.\",\n  \"issues\": [\n    {\n      \"line\": 3,\n      \"type\": \"logic\",\n      \"severity\": \"high\",\n      \"what\": \"The function returns 10 instead of 15 when called with 5.\",\n      \"why\": \"`range(start, stop)` includes the starting number, but stops right before reaching the stop number.\",\n      \"hint\": \"How can you change the second argument inside `range()` so that `n` itself is included in the loop?\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job defining a clear function and setting up your `total` accumulator variable!\",\n  \"next_step\": \"Try printing `i` inside the loop to see which numbers are being added when you call `sum_to_n(5)`.\"\n}",
+        "p1_json": {
+          "status": "ok",
+          "summary": "Your loop setup is very neat, but `sum_to_n(5)` gives 10 instead of 15 because of how `range()` works.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "logic",
+              "severity": "high",
+              "what": "The function returns 10 instead of 15 when called with 5.",
+              "why": "`range(start, stop)` includes the starting number, but stops right before reaching the stop number.",
+              "hint": "How can you change the second argument inside `range()` so that `n` itself is included in the loop?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job defining a clear function and setting up your `total` accumulator variable!",
+          "next_step": "Try printing `i` inside the loop to see which numbers are being added when you call `sum_to_n(5)`."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "ok",
+          "summary": "Your loop setup is very neat, but `sum_to_n(5)` gives 10 instead of 15 because of how `range()` works.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "logic",
+              "severity": "high",
+              "what": "The function returns 10 instead of 15 when called with 5.",
+              "why": "`range(start, stop)` includes the starting number, but stops right before reaching the stop number.",
+              "hint": "How can you change the second argument inside `range()` so that `n` itself is included in the loop?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job defining a clear function and setting up your `total` accumulator variable!",
+          "next_step": "Try printing `i` inside the loop to see which numbers are being added when you call `sum_to_n(5)`."
+        },
+        "latency_s": 7.31,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 7.31,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "line_found": true,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=ok; L3 logic: The function returns 10 instead of 15 when called with 5.",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T02",
+      "title": "= instead of == in if",
+      "type": "Normal",
+      "expected_output": "Syntax issue on line 2 (assignment vs comparison); hint, no corrected line",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"ok\",\n  \"summary\": \"Your structure looks great! Python stopped on line 2 because of how comparison operators are written in `if` statements.\",\n  \"issues\": [\n    {\n      \"line\": 2,\n      \"type\": \"syntax\",\n      \"severity\": \"high\",\n      \"what\": \"Line 2 uses a single equals sign inside the `if` condition.\",\n      \"why\": \"In Python, `=` assigns a value to a variable, while comparing two values requires a different operator.\",\n      \"hint\": \"Which operator does Python use to test if two values are equal?\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job using `int()` to correctly convert the user input into a number!\",\n  \"next_step\": \"Update the operator on line 2 to check for equality and run your program again.\"\n}",
+        "p1_json": {
+          "status": "ok",
+          "summary": "Your structure looks great! Python stopped on line 2 because of how comparison operators are written in `if` statements.",
+          "issues": [
+            {
+              "line": 2,
+              "type": "syntax",
+              "severity": "high",
+              "what": "Line 2 uses a single equals sign inside the `if` condition.",
+              "why": "In Python, `=` assigns a value to a variable, while comparing two values requires a different operator.",
+              "hint": "Which operator does Python use to test if two values are equal?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job using `int()` to correctly convert the user input into a number!",
+          "next_step": "Update the operator on line 2 to check for equality and run your program again."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "ok",
+          "summary": "Your structure looks great! Python stopped on line 2 because of how comparison operators are written in `if` statements.",
+          "issues": [
+            {
+              "line": 2,
+              "type": "syntax",
+              "severity": "high",
+              "what": "Line 2 uses a single equals sign inside the `if` condition.",
+              "why": "In Python, `=` assigns a value to a variable, while comparing two values requires a different operator.",
+              "hint": "Which operator does Python use to test if two values are equal?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job using `int()` to correctly convert the user input into a number!",
+          "next_step": "Update the operator on line 2 to check for equality and run your program again."
+        },
+        "latency_s": 4.97,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 4.97,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "SyntaxError on line 2: invalid syntax. Maybe you meant '==' or ':=' instead of '='?"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "line_found": true,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=ok; L2 syntax: Line 2 uses a single equals sign inside the `if` condition.",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T03",
+      "title": "Misspelled variable (NameError)",
+      "type": "Normal",
+      "expected_output": "Bug on line 3 (radious is not defined); hint to compare spellings",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"ok\",\n  \"summary\": \"Your formula is almost right, but there is a typo in a variable name that causes a crash.\",\n  \"issues\": [\n    {\n      \"line\": 3,\n      \"type\": \"bug\",\n      \"severity\": \"high\",\n      \"what\": \"The variable `radious` is misspelled on line 3.\",\n      \"why\": \"Python looks for a variable named `radious`, but only `radius` was defined as the function parameter.\",\n      \"hint\": \"Compare the spelling of the parameter on line 1 with the names used inside the function on line 3.\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"You defined a neat function and assigned pi clearly!\",\n  \"next_step\": \"Check the spelling of your variable names on line 3 and run the code again.\"\n}",
+        "p1_json": {
+          "status": "ok",
+          "summary": "Your formula is almost right, but there is a typo in a variable name that causes a crash.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "The variable `radious` is misspelled on line 3.",
+              "why": "Python looks for a variable named `radious`, but only `radius` was defined as the function parameter.",
+              "hint": "Compare the spelling of the parameter on line 1 with the names used inside the function on line 3."
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "You defined a neat function and assigned pi clearly!",
+          "next_step": "Check the spelling of your variable names on line 3 and run the code again."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "ok",
+          "summary": "Your formula is almost right, but there is a typo in a variable name that causes a crash.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "The variable `radious` is misspelled on line 3.",
+              "why": "Python looks for a variable named `radious`, but only `radius` was defined as the function parameter.",
+              "hint": "Compare the spelling of the parameter on line 1 with the names used inside the function on line 3."
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "You defined a neat function and assigned pi clearly!",
+          "next_step": "Check the spelling of your variable names on line 3 and run the code again."
+        },
+        "latency_s": 4.25,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 4.25,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "line_found": true,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=ok; L3 bug: The variable `radious` is misspelled on line 3.",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T04",
+      "title": "print instead of return",
+      "type": "Normal",
+      "expected_output": "Bug on line 3/5 (function returns None, TypeError on line 5); hint about return vs print",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"ok\",\n  \"summary\": \"Your function calculates the sum, but line 5 crashes because the function prints the answer instead of returning it.\",\n  \"issues\": [\n    {\n      \"line\": 3,\n      \"type\": \"bug\",\n      \"severity\": \"high\",\n      \"what\": \"Line 5 causes an error because `add(2, 3)` returns `None` instead of the calculated total.\",\n      \"why\": \"Using `print()` displays text on the screen, but it does not send a value back for math operations.\",\n      \"hint\": \"Which Python keyword sends a value back from a function so other code can use it?\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job defining a clean function with parameters and attempting to use its result!\",\n  \"next_step\": \"Think about how to hand a value back from a function, then test line 5 again.\"\n}",
+        "p1_json": {
+          "status": "ok",
+          "summary": "Your function calculates the sum, but line 5 crashes because the function prints the answer instead of returning it.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "Line 5 causes an error because `add(2, 3)` returns `None` instead of the calculated total.",
+              "why": "Using `print()` displays text on the screen, but it does not send a value back for math operations.",
+              "hint": "Which Python keyword sends a value back from a function so other code can use it?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job defining a clean function with parameters and attempting to use its result!",
+          "next_step": "Think about how to hand a value back from a function, then test line 5 again."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "ok",
+          "summary": "Your function calculates the sum, but line 5 crashes because the function prints the answer instead of returning it.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "Line 5 causes an error because `add(2, 3)` returns `None` instead of the calculated total.",
+              "why": "Using `print()` displays text on the screen, but it does not send a value back for math operations.",
+              "hint": "Which Python keyword sends a value back from a function so other code can use it?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job defining a clean function with parameters and attempting to use its result!",
+          "next_step": "Think about how to hand a value back from a function, then test line 5 again."
+        },
+        "latency_s": 6.61,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 6.61,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "line_found": true,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=ok; L3 bug: Line 5 causes an error because `add(2, 3)` returns `None` instead of",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T05",
+      "title": "Infinite while loop",
+      "type": "Normal",
+      "expected_output": "Bug on line 2/3 (count never changes, loop never ends); hint without count += 1",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"ok\",\n  \"summary\": \"Your loop structure is clear, but the loop currently runs forever.\",\n  \"issues\": [\n    {\n      \"line\": 3,\n      \"type\": \"bug\",\n      \"severity\": \"high\",\n      \"what\": \"The program gets stuck in an infinite loop because count never changes.\",\n      \"why\": \"A while loop checks its condition repeatedly. If the variable in the condition never updates, the loop runs forever.\",\n      \"hint\": \"What line can you add inside the loop to update the value of `count` each time it runs?\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job initializing your counter variable and setting up the while loop condition.\",\n  \"next_step\": \"Add a statement inside the loop to increase count by 1 each turn.\"\n}",
+        "p1_json": {
+          "status": "ok",
+          "summary": "Your loop structure is clear, but the loop currently runs forever.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "The program gets stuck in an infinite loop because count never changes.",
+              "why": "A while loop checks its condition repeatedly. If the variable in the condition never updates, the loop runs forever.",
+              "hint": "What line can you add inside the loop to update the value of `count` each time it runs?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job initializing your counter variable and setting up the while loop condition.",
+          "next_step": "Add a statement inside the loop to increase count by 1 each turn."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "ok",
+          "summary": "Your loop structure is clear, but the loop currently runs forever.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "The program gets stuck in an infinite loop because count never changes.",
+              "why": "A while loop checks its condition repeatedly. If the variable in the condition never updates, the loop runs forever.",
+              "hint": "What line can you add inside the loop to update the value of `count` each time it runs?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job initializing your counter variable and setting up the while loop condition.",
+          "next_step": "Add a statement inside the loop to increase count by 1 each turn."
+        },
+        "latency_s": 6.62,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 6.62,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "line_found": true,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=ok; L3 bug: The program gets stuck in an infinite loop because count never changes.",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T06",
+      "title": "Joining string and int",
+      "type": "Normal",
+      "expected_output": "Bug on line 3 (TypeError: str + int); hint about converting types, no fixed print line",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"ok\",\n  \"summary\": \"Your program gets the input correctly, but it stops with an error when printing the message on line 3.\",\n  \"issues\": [\n    {\n      \"line\": 3,\n      \"type\": \"bug\",\n      \"severity\": \"high\",\n      \"what\": \"Combining text and numbers directly using the `+` operator causes a runtime error.\",\n      \"why\": \"Python cannot automatically join a string and an integer together using `+`.\",\n      \"hint\": \"What function turns a number back into text, or what other way can `print()` display multiple values?\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job using `int()` to convert the user's age into a number for calculation!\",\n  \"next_step\": \"Try converting the calculated age to text, or separate the parts in `print()` with commas.\"\n}",
+        "p1_json": {
+          "status": "ok",
+          "summary": "Your program gets the input correctly, but it stops with an error when printing the message on line 3.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "Combining text and numbers directly using the `+` operator causes a runtime error.",
+              "why": "Python cannot automatically join a string and an integer together using `+`.",
+              "hint": "What function turns a number back into text, or what other way can `print()` display multiple values?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job using `int()` to convert the user's age into a number for calculation!",
+          "next_step": "Try converting the calculated age to text, or separate the parts in `print()` with commas."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "ok",
+          "summary": "Your program gets the input correctly, but it stops with an error when printing the message on line 3.",
+          "issues": [
+            {
+              "line": 3,
+              "type": "bug",
+              "severity": "high",
+              "what": "Combining text and numbers directly using the `+` operator causes a runtime error.",
+              "why": "Python cannot automatically join a string and an integer together using `+`.",
+              "hint": "What function turns a number back into text, or what other way can `print()` display multiple values?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job using `int()` to convert the user's age into a number for calculation!",
+          "next_step": "Try converting the calculated age to text, or separate the parts in `print()` with commas."
+        },
+        "latency_s": 6.17,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 6.17,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "line_found": true,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=ok; L3 bug: Combining text and numbers directly using the `+` operator causes a runtime",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T07",
+      "title": "Removing items while looping",
+      "type": "Normal",
+      "expected_output": "Logic issue on line 2/4 (list changes during loop, some evens skipped); hint to trace the loop",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"ok\",\n  \"summary\": \"Modifying a list while looping over it causes Python to skip some numbers.\",\n  \"issues\": [\n    {\n      \"line\": 2,\n      \"type\": \"logic\",\n      \"severity\": \"high\",\n      \"what\": \"Removing items from a list while iterating through it causes some numbers to be skipped.\",\n      \"why\": \"Python tracks the loop using index positions. When an item is removed, remaining items shift left, skipping the next element.\",\n      \"hint\": \"What happens to the next number's index when you delete an item? Consider building a new list or looping over a copy instead.\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job using the modulo operator `%` to check for even numbers!\",\n  \"next_step\": \"Trace the loop by hand with list indices to see which numbers get skipped.\"\n}",
+        "p1_json": {
+          "status": "ok",
+          "summary": "Modifying a list while looping over it causes Python to skip some numbers.",
+          "issues": [
+            {
+              "line": 2,
+              "type": "logic",
+              "severity": "high",
+              "what": "Removing items from a list while iterating through it causes some numbers to be skipped.",
+              "why": "Python tracks the loop using index positions. When an item is removed, remaining items shift left, skipping the next element.",
+              "hint": "What happens to the next number's index when you delete an item? Consider building a new list or looping over a copy instead."
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job using the modulo operator `%` to check for even numbers!",
+          "next_step": "Trace the loop by hand with list indices to see which numbers get skipped."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "ok",
+          "summary": "Modifying a list while looping over it causes Python to skip some numbers.",
+          "issues": [
+            {
+              "line": 2,
+              "type": "logic",
+              "severity": "high",
+              "what": "Removing items from a list while iterating through it causes some numbers to be skipped.",
+              "why": "Python tracks the loop using index positions. When an item is removed, remaining items shift left, skipping the next element.",
+              "hint": "What happens to the next number's index when you delete an item? Consider building a new list or looping over a copy instead."
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job using the modulo operator `%` to check for even numbers!",
+          "next_step": "Trace the loop by hand with list indices to see which numbers get skipped."
+        },
+        "latency_s": 7.17,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 7.17,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "line_found": true,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=ok; L2 logic: Removing items from a list while iterating through it causes some numbers",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T08",
+      "title": "Working code, poor style",
+      "type": "Normal",
+      "expected_output": "Only style issues (unclear names, 2-space indent, missing spaces); no bugs reported",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"no_issues\",\n  \"summary\": \"Your function correctly multiplies two numbers and returns the result! I have just a couple of small style tips to make it even cleaner.\",\n  \"issues\": [\n    {\n      \"line\": 1,\n      \"type\": \"style\",\n      \"severity\": \"low\",\n      \"what\": \"The function name `F` is capitalized and not very descriptive.\",\n      \"why\": \"Python style guidelines prefer lowercase function names that describe what the function does, such as `multiply`.\",\n      \"hint\": \"What descriptive lowercase name could you give this function to show what it calculates?\"\n    },\n    {\n      \"line\": 2,\n      \"type\": \"style\",\n      \"severity\": \"low\",\n      \"what\": \"Adding spaces around operators and after commas makes code easier to read.\",\n      \"why\": \"Python formatting guidelines recommend putting spaces around `=` and after commas in parameter lists.\",\n      \"hint\": \"How could adding spaces around the `=` operator and commas improve readability?\"\n    }\n  ],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job defining a function that cleanly calculates and returns a result.\",\n  \"next_step\": \"Try renaming your function to a descriptive lowercase name and adding standard spacing around operators.\"\n}",
+        "p1_json": {
+          "status": "no_issues",
+          "summary": "Your function correctly multiplies two numbers and returns the result! I have just a couple of small style tips to make it even cleaner.",
+          "issues": [
+            {
+              "line": 1,
+              "type": "style",
+              "severity": "low",
+              "what": "The function name `F` is capitalized and not very descriptive.",
+              "why": "Python style guidelines prefer lowercase function names that describe what the function does, such as `multiply`.",
+              "hint": "What descriptive lowercase name could you give this function to show what it calculates?"
+            },
+            {
+              "line": 2,
+              "type": "style",
+              "severity": "low",
+              "what": "Adding spaces around operators and after commas makes code easier to read.",
+              "why": "Python formatting guidelines recommend putting spaces around `=` and after commas in parameter lists.",
+              "hint": "How could adding spaces around the `=` operator and commas improve readability?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job defining a function that cleanly calculates and returns a result.",
+          "next_step": "Try renaming your function to a descriptive lowercase name and adding standard spacing around operators."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "no_issues",
+          "summary": "Your function correctly multiplies two numbers and returns the result! I have just a couple of small style tips to make it even cleaner.",
+          "issues": [
+            {
+              "line": 1,
+              "type": "style",
+              "severity": "low",
+              "what": "The function name `F` is capitalized and not very descriptive.",
+              "why": "Python style guidelines prefer lowercase function names that describe what the function does, such as `multiply`.",
+              "hint": "What descriptive lowercase name could you give this function to show what it calculates?"
+            },
+            {
+              "line": 2,
+              "type": "style",
+              "severity": "low",
+              "what": "Adding spaces around operators and after commas makes code easier to read.",
+              "why": "Python formatting guidelines recommend putting spaces around `=` and after commas in parameter lists.",
+              "hint": "How could adding spaces around the `=` operator and commas improve readability?"
+            }
+          ],
+          "refused_solution_request": false,
+          "praise": "Great job defining a function that cleanly calculates and returns a result.",
+          "next_step": "Try renaming your function to a descriptive lowercase name and adding standard spacing around operators."
+        },
+        "latency_s": 9.22,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 9.22,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "style_only_ok": true,
+        "pass": true,
+        "actual_short": "status=no_issues; L1 style: The function name `F` is capitalized and not very descriptive.",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T09",
+      "title": "Correct, clean code",
+      "type": "Edge",
+      "expected_output": "status no_issues; no invented bugs; at most 2 low style notes",
+      "result": {
+        "version": "v3",
+        "raw_p1": "{\n  \"status\": \"no_issues\",\n  \"summary\": \"Your program runs cleanly and gives the correct answer for every number in your list!\",\n  \"issues\": [],\n  \"refused_solution_request\": false,\n  \"praise\": \"Great job writing a clean function with a clear docstring and accurate logic.\",\n  \"next_step\": \"Try asking the user to input a number and print whether it is even.\"\n}",
+        "p1_json": {
+          "status": "no_issues",
+          "summary": "Your program runs cleanly and gives the correct answer for every number in your list!",
+          "issues": [],
+          "refused_solution_request": false,
+          "praise": "Great job writing a clean function with a clear docstring and accurate logic.",
+          "next_step": "Try asking the user to input a number and print whether it is even."
+        },
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "no_issues",
+          "summary": "Your program runs cleanly and gives the correct answer for every number in your list!",
+          "issues": [],
+          "refused_solution_request": false,
+          "praise": "Great job writing a clean function with a clear docstring and accurate logic.",
+          "next_step": "Try asking the user to input a number and print whether it is even."
+        },
+        "latency_s": 4.24,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 4.24,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": "OK"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "status_ok": true,
+        "no_bugs_ok": true,
+        "pass": true,
+        "actual_short": "status=no_issues; Your program runs cleanly and gives the correct answer for every number",
+        "guard_rewrites": 0
+      }
+    }
+  ]
+}

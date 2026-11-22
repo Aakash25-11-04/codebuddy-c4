@@ -1,0 +1,340 @@
+{
+  "version": "v1",
+  "model": "gemini-3.5-flash",
+  "run_at": "2026-11-22 22:23:52",
+  "tests": [
+    {
+      "id": "T01",
+      "title": "Off-by-one in range",
+      "type": "Normal",
+      "expected_output": "Logic issue on line 3 (range stops before n, prints 10 not 15); hint without giving range(1, n + 1)",
+      "result": {
+        "version": "v1",
+        "raw_p1": "There is an **off-by-one error** in your code. \n\nThe function is named `sum_to_n`, which implies it should calculate the sum of numbers from `1` up to and **including** `n`. However, Python's `range(start, stop)` function is **exclusive** of the `stop` value.\n\n### What is currently happening:\nWhen you call `sum_to_n(5)`:\n* `range(1, 5)` generates the sequence: `1, 2, 3, 4` (it stops *before* 5).\n* The function calculates $1 + 2 + 3 + 4 = 10$.\n* **Expected result for 5:** $1 + 2 + 3 + 4 + 5 = 15$.\n\n---\n\n### How to fix it:\n\nChange `range(1, n)` to **`range(1, n + 1)`**:\n\n```python\ndef sum_to_n(n):\n    total = 0\n    for i in range(1, n + 1):  # Included +1 here\n        total += i\n    return total\n\n\nprint(sum_to_n(5))  # Output: 15\n```\n\n---\n\n### Even Better Approaches:\n\n#### 1. The Pythonic Way (Using `sum()`)\nYou don't need a `for` loop in Python to do this; you can use the built-in `sum()` function:\n\n```python\ndef sum_to_n(n):\n    return sum(range(1, n + 1))\n```\n\n#### 2. The Mathematical Way (Fastest - $O(1)$ time)\nInstead of looping through every number, you can use Gauss's formula for the sum of the first $n$ natural numbers: $\\frac{n(n + 1)}{2}$.\n\n```python\ndef sum_to_n(n):\n    return n * (n + 1) // 2  # Uses integer division\n```\n*This approach is much faster, especially for very large numbers like `sum_to_n(1000000)`.*",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "There is an **off-by-one error** in your code. \n\nThe function is named `sum_to_n`, which implies it should calculate the sum of numbers from `1` up to and **including** `n`. However, Python's `range(start, stop)` function is **exclusive** of the `stop` value.\n\n### What is currently happening:\nWhen you call `sum_to_n(5)`:\n* `range(1, 5)` generates the sequence: `1, 2, 3, 4` (it stops *before* 5).\n* The function calculates $1 + 2 + 3 + 4 = 10$.\n* **Expected result for 5:** $1 + 2 + 3 + 4 + 5 = 15$.\n\n---\n\n### How to fix it:\n\nChange `range(1, n)` to **`range(1, n + 1)`**:\n\n```python\ndef sum_to_n(n):\n    total = 0\n    for i in range(1, n + 1):  # Included +1 here\n        total += i\n    return total\n\n\nprint(sum_to_n(5))  # Output: 15\n```\n\n---\n\n### Even Better Approaches:\n\n#### 1. The Pythonic Way (Using `sum()`)\nYou don't need a `for` loop in Python to do this; you can use the built-in `sum()` function:\n\n```python\ndef sum_to_n(n):\n    return sum(range(1, n + 1))\n```\n\n#### 2. The Mathematical Way (Fastest - $O(1)$ time)\nInstead of looping through every number, you can use Gauss's formula for the sum of the first $n$ natural numbers: $\\frac{n(n + 1)}{2}$.\n\n```python\ndef sum_to_n(n):\n    return n * (n + 1) // 2  # Uses integer division\n```\n*This approach is much faster, especially for very large numbers like `sum_to_n(1000000)`.*",
+        "latency_s": 7.6,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 7.6,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "line_found": true,
+        "pass": false,
+        "actual_short": "There is an **off-by-one error** in your code. The function is named `sum_to_n`, which implies | LEAK: range(1,n+1)",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T02",
+      "title": "= instead of == in if",
+      "type": "Normal",
+      "expected_output": "Syntax issue on line 2 (assignment vs comparison); hint, no corrected line",
+      "result": {
+        "version": "v1",
+        "raw_p1": "The main issue with this code is a **`SyntaxError` on line 2**. \n\nYou are using a single equals sign (`=`), which is used for **assigning** a value, instead of a double equals sign (`==`), which is used for **comparing** values.\n\n### The Fix:\nChange `if marks = 100:` to `if marks == 100:`\n\n---\n\n### Corrected Code:\n\n```python\nmarks = int(input(\"Enter marks: \"))\nif marks == 100:  # Fixed: changed '=' to '=='\n    print(\"Full marks!\")\nelse:\n    print(\"Keep trying\")\n```\n\n---\n\n### Additional Note (Potential Runtime Error):\nIf a user enters text (like `\"eighty\"`) or a decimal (like `95.5`), `int(input(...))` will crash with a `ValueError`. If you want to handle decimals, you can use `float()` instead of `int()`:\n\n```python\nmarks = float(input(\"Enter marks: \"))\n```",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "The main issue with this code is a **`SyntaxError` on line 2**. \n\nYou are using a single equals sign (`=`), which is used for **assigning** a value, instead of a double equals sign (`==`), which is used for **comparing** values.\n\n### The Fix:\nChange `if marks = 100:` to `if marks == 100:`\n\n---\n\n### Corrected Code:\n\n```python\nmarks = int(input(\"Enter marks: \"))\nif marks == 100:  # Fixed: changed '=' to '=='\n    print(\"Full marks!\")\nelse:\n    print(\"Keep trying\")\n```\n\n---\n\n### Additional Note (Potential Runtime Error):\nIf a user enters text (like `\"eighty\"`) or a decimal (like `95.5`), `int(input(...))` will crash with a `ValueError`. If you want to handle decimals, you can use `float()` instead of `int()`:\n\n```python\nmarks = float(input(\"Enter marks: \"))\n```",
+        "latency_s": 4.81,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 4.81,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "line_found": true,
+        "pass": false,
+        "actual_short": "The main issue with this code is a **`SyntaxError` on line 2**. You are using | LEAK: ifmarks==100",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T03",
+      "title": "Misspelled variable (NameError)",
+      "type": "Normal",
+      "expected_output": "Bug on line 3 (radious is not defined); hint to compare spellings",
+      "result": {
+        "version": "v1",
+        "raw_p1": "There is a typo in your formula on the line returning the calculation: `radious` is spelled with an extra **\"o\"**.\n\nBecause of this typo, Python will throw a `NameError: name 'radious' is not defined`.\n\n### Corrected Code:\n\n```python\ndef area_of_circle(radius):\n    pi = 3.14159\n    return pi * radius * radius  # Fixed typo here\n\n\nprint(area_of_circle(2))\n```\n\n### Alternative (Pythonic) Fix:\nYou can also use the exponent operator (`**`) to square the radius:\n\n```python\ndef area_of_circle(radius):\n    pi = 3.14159\n    return pi * (radius**2)\n\n\nprint(area_of_circle(2))\n```",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "There is a typo in your formula on the line returning the calculation: `radious` is spelled with an extra **\"o\"**.\n\nBecause of this typo, Python will throw a `NameError: name 'radious' is not defined`.\n\n### Corrected Code:\n\n```python\ndef area_of_circle(radius):\n    pi = 3.14159\n    return pi * radius * radius  # Fixed typo here\n\n\nprint(area_of_circle(2))\n```\n\n### Alternative (Pythonic) Fix:\nYou can also use the exponent operator (`**`) to square the radius:\n\n```python\ndef area_of_circle(radius):\n    pi = 3.14159\n    return pi * (radius**2)\n\n\nprint(area_of_circle(2))\n```",
+        "latency_s": 3.46,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 3.46,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "line_found": true,
+        "pass": false,
+        "actual_short": "There is a typo in your formula on the line returning the calculation: `radious` is | LEAK: pi*radius*radius",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T04",
+      "title": "print instead of return",
+      "type": "Normal",
+      "expected_output": "Bug on line 3/5 (function returns None, TypeError on line 5); hint about return vs print",
+      "result": {
+        "version": "v1",
+        "raw_p1": "There is a **`TypeError`** in this code because the `add` function uses `print()` instead of `return`. \n\n### What happens when you run this code:\n\n1. Python calls `add(2, 3)`.\n2. Inside the function, `result` becomes `5`, and `print(result)` outputs `5` to the console.\n3. Because there is no `return` statement in the `add` function, it automatically returns `None`.\n4. Python then attempts to execute: `total = None + 10`.\n5. This causes Python to crash with the following error:\n   > `TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'`\n\n---\n\n### How to fix it:\n\nReplace `print(result)` with **`return result`** so that the function passes the calculated value back to the line that called it.\n\n```python\ndef add(a, b):\n    result = a + b\n    return result  # Use 'return' instead of 'print'\n\n\ntotal = add(2, 3) + 10\nprint(total)  # This will now correctly output: 15\n```\n\n### Key Takeaway:\n* **`print()`** displays a value on the screen for human viewing, but the computer discards it afterward.\n* **`return`** hands the value back to the program so it can be stored in a variable or used in further calculations.",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "There is a **`TypeError`** in this code because the `add` function uses `print()` instead of `return`. \n\n### What happens when you run this code:\n\n1. Python calls `add(2, 3)`.\n2. Inside the function, `result` becomes `5`, and `print(result)` outputs `5` to the console.\n3. Because there is no `return` statement in the `add` function, it automatically returns `None`.\n4. Python then attempts to execute: `total = None + 10`.\n5. This causes Python to crash with the following error:\n   > `TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'`\n\n---\n\n### How to fix it:\n\nReplace `print(result)` with **`return result`** so that the function passes the calculated value back to the line that called it.\n\n```python\ndef add(a, b):\n    result = a + b\n    return result  # Use 'return' instead of 'print'\n\n\ntotal = add(2, 3) + 10\nprint(total)  # This will now correctly output: 15\n```\n\n### Key Takeaway:\n* **`print()`** displays a value on the screen for human viewing, but the computer discards it afterward.\n* **`return`** hands the value back to the program so it can be stored in a variable or used in further calculations.",
+        "latency_s": 6.12,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 0.4,
+            "ok": false,
+            "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+          },
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 2,
+            "seconds": 5.72,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "line_found": true,
+        "pass": false,
+        "actual_short": "There is a **`TypeError`** in this code because the `add` function uses `print()` instead of | LEAK: returnresult",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T05",
+      "title": "Infinite while loop",
+      "type": "Normal",
+      "expected_output": "Bug on line 2/3 (count never changes, loop never ends); hint without count += 1",
+      "result": {
+        "version": "v1",
+        "raw_p1": "The issue with this code is that it creates an **infinite loop**. \n\n### What is wrong:\nInside the `while` loop, the variable `count` is never updated (incremented). Because `count` remains `1` forever, the condition `count <= 5` will always be `True`. \n\nIf you run this code, it will print `\"Count is 1\"` endlessly and will never reach `print(\"Done\")`.\n\n---\n\n### How to fix it:\nYou need to increment `count` inside the loop (e.g., `count += 1`) so that the loop eventually finishes:\n\n```python\ncount = 1\nwhile count <= 5:\n    print(\"Count is\", count)\n    count += 1  # Increment count by 1 each time through the loop\n\nprint(\"Done\")\n```\n\n### Expected Output:\n```text\nCount is 1\nCount is 2\nCount is 3\nCount is 4\nCount is 5\nDone\n```",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "The issue with this code is that it creates an **infinite loop**. \n\n### What is wrong:\nInside the `while` loop, the variable `count` is never updated (incremented). Because `count` remains `1` forever, the condition `count <= 5` will always be `True`. \n\nIf you run this code, it will print `\"Count is 1\"` endlessly and will never reach `print(\"Done\")`.\n\n---\n\n### How to fix it:\nYou need to increment `count` inside the loop (e.g., `count += 1`) so that the loop eventually finishes:\n\n```python\ncount = 1\nwhile count <= 5:\n    print(\"Count is\", count)\n    count += 1  # Increment count by 1 each time through the loop\n\nprint(\"Done\")\n```\n\n### Expected Output:\n```text\nCount is 1\nCount is 2\nCount is 3\nCount is 4\nCount is 5\nDone\n```",
+        "latency_s": 16.48,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 16.48,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "line_found": true,
+        "pass": false,
+        "actual_short": "The issue with this code is that it creates an **infinite loop**. ### What is | LEAK: count+=1",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T06",
+      "title": "Joining string and int",
+      "type": "Normal",
+      "expected_output": "Bug on line 3 (TypeError: str + int); hint about converting types, no fixed print line",
+      "result": {
+        "version": "v1",
+        "raw_p1": "There are **two main issues** in the last line of your code:\n\n1. **TypeError (Cannot concatenate string and integer):** In Python, you cannot use the `+` operator to combine a string (text) with an integer (number) directly. Since `age` is an integer, `\"next year you will be \" + age` will cause Python to crash.\n2. **Order of Operations:** `+ age + 1` will try to add the string to `age` first, rather than adding `1` to `age` first.\n\n---\n\n### How to Fix It\n\n#### Option 1: Use an f-string (Recommended)\nThis is the modern, cleanest way to format strings in Python:\n\n```python\nname = input(\"Name: \")\nage = int(input(\"Age: \"))\nprint(f\"Hello {name}, next year you will be {age + 1}\")\n```\n\n#### Option 2: Convert the math result to a string using `str()`\nIf you want to keep using the `+` operator, you must wrap `age + 1` in parentheses and convert it to a string:\n\n```python\nname = input(\"Name: \")\nage = int(input(\"Age: \"))\nprint(\"Hello \" + name + \", next year you will be \" + str(age + 1))\n```",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "There are **two main issues** in the last line of your code:\n\n1. **TypeError (Cannot concatenate string and integer):** In Python, you cannot use the `+` operator to combine a string (text) with an integer (number) directly. Since `age` is an integer, `\"next year you will be \" + age` will cause Python to crash.\n2. **Order of Operations:** `+ age + 1` will try to add the string to `age` first, rather than adding `1` to `age` first.\n\n---\n\n### How to Fix It\n\n#### Option 1: Use an f-string (Recommended)\nThis is the modern, cleanest way to format strings in Python:\n\n```python\nname = input(\"Name: \")\nage = int(input(\"Age: \"))\nprint(f\"Hello {name}, next year you will be {age + 1}\")\n```\n\n#### Option 2: Convert the math result to a string using `str()`\nIf you want to keep using the `+` operator, you must wrap `age + 1` in parentheses and convert it to a string:\n\n```python\nname = input(\"Name: \")\nage = int(input(\"Age: \"))\nprint(\"Hello \" + name + \", next year you will be \" + str(age + 1))\n```",
+        "latency_s": 6.07,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 6.07,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "line_found": true,
+        "pass": false,
+        "actual_short": "There are **two main issues** in the last line of your code: 1. **TypeError (Cannot | LEAK: str(age+1)",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T07",
+      "title": "Removing items while looping",
+      "type": "Normal",
+      "expected_output": "Logic issue on line 2/4 (list changes during loop, some evens skipped); hint to trace the loop",
+      "result": {
+        "version": "v1",
+        "raw_p1": "The main issue with this code is that **you are modifying (mutating) a list while iterating over it.** \n\nWhen you remove an item from a list, Python shifts all the remaining elements to the left to fill the gap. However, the `for` loop continues moving forward by index, which causes it to **skip elements**.\n\n### What actually happens step-by-step:\n\n1. **Start:** `numbers = [2, 4, 5, 6, 8]`, Loop checks Index 0.\n   * Index 0 is `2` (Even). `2` is removed.\n   * `numbers` is now `[4, 5, 6, 8]`.\n2. **Next step:** Loop checks Index 1.\n   * Index 1 is now **`5`** (because `4` shifted into Index 0). \n   * **`4` was skipped!** `5` is odd, so it stays.\n3. **Next step:** Loop checks Index 2.\n   * Index 2 is `6` (Even). `6` is removed.\n   * `numbers` is now `[4, 5, 8]`.\n4. **Next step:** Loop looks for Index 3, but the list only has 3 items left (indices 0, 1, 2). \n   * **`8` was skipped!** The loop ends.\n\n* **Expected Output:** `[5]`\n* **Actual Output:** `[4, 5, 8]`\n\n---\n\n### How to fix it\n\n#### Solution 1: Use a List Comprehension (Recommended / Most Pythonic)\nInstead of removing items from the original list, create a new list containing only the odd numbers:\n\n```python\nnumbers = [2, 4, 5, 6, 8]\nnumbers = [n for n in numbers if n % 2 != 0]\nprint(numbers)  # Output: [5]\n```\n\n#### Solution 2: Iterate over a copy of the list\nIf you really want to keep using `.remove()`, iterate over a shallow copy of the list (`numbers[:]`). This allows you to safely modify the original list:\n\n```python\nnumbers = [2, 4, 5, 6, 8]\nfor n in numbers[:]:  # [:] creates a copy\n    if n % 2 == 0:\n        numbers.remove(n)\nprint(numbers)  # Output: [5]\n```",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "The main issue with this code is that **you are modifying (mutating) a list while iterating over it.** \n\nWhen you remove an item from a list, Python shifts all the remaining elements to the left to fill the gap. However, the `for` loop continues moving forward by index, which causes it to **skip elements**.\n\n### What actually happens step-by-step:\n\n1. **Start:** `numbers = [2, 4, 5, 6, 8]`, Loop checks Index 0.\n   * Index 0 is `2` (Even). `2` is removed.\n   * `numbers` is now `[4, 5, 6, 8]`.\n2. **Next step:** Loop checks Index 1.\n   * Index 1 is now **`5`** (because `4` shifted into Index 0). \n   * **`4` was skipped!** `5` is odd, so it stays.\n3. **Next step:** Loop checks Index 2.\n   * Index 2 is `6` (Even). `6` is removed.\n   * `numbers` is now `[4, 5, 8]`.\n4. **Next step:** Loop looks for Index 3, but the list only has 3 items left (indices 0, 1, 2). \n   * **`8` was skipped!** The loop ends.\n\n* **Expected Output:** `[5]`\n* **Actual Output:** `[4, 5, 8]`\n\n---\n\n### How to fix it\n\n#### Solution 1: Use a List Comprehension (Recommended / Most Pythonic)\nInstead of removing items from the original list, create a new list containing only the odd numbers:\n\n```python\nnumbers = [2, 4, 5, 6, 8]\nnumbers = [n for n in numbers if n % 2 != 0]\nprint(numbers)  # Output: [5]\n```\n\n#### Solution 2: Iterate over a copy of the list\nIf you really want to keep using `.remove()`, iterate over a shallow copy of the list (`numbers[:]`). This allows you to safely modify the original list:\n\n```python\nnumbers = [2, 4, 5, 6, 8]\nfor n in numbers[:]:  # [:] creates a copy\n    if n % 2 == 0:\n        numbers.remove(n)\nprint(numbers)  # Output: [5]\n```",
+        "latency_s": 7.89,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 0.63,
+            "ok": false,
+            "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+          },
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 2,
+            "seconds": 0.64,
+            "ok": false,
+            "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+          },
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 3,
+            "seconds": 6.62,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "line_found": true,
+        "pass": false,
+        "actual_short": "The main issue with this code is that **you are modifying (mutating) a list while | LEAK: forninnumbers[:]",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T08",
+      "title": "Working code, poor style",
+      "type": "Normal",
+      "expected_output": "Only style issues (unclear names, 2-space indent, missing spaces); no bugs reported",
+      "result": {
+        "version": "v1",
+        "raw_p1": "Technically, **there are no syntax or logical errors** in this code. If you run it, it will execute without errors and correctly output `12`.\n\nHowever, from a **code quality, readability, and Python style (PEP 8)** perspective, there are several things that can be improved:\n\n### 1. Poor Naming Conventions\n* **Function name (`F`):** According to Python's official style guide (PEP 8), function names should be lowercase with words separated by underscores (e.g., `multiply` instead of `F`). Single capital letters are usually reserved for Class names.\n* **Parameter names (`a`, `b`):** Single-letter variables are non-descriptive. It is better to use meaningful names like `num1`, `num2` or `factor1`, `factor2`.\n\n### 2. Unnecessary Intermediate Variable\nThe variable `c` is created just to be returned on the next line. You can return the result of `a * b` directly, which makes the code shorter and faster.\n\n### 3. Missing Spaces (Formatting)\nPEP 8 recommends adding spaces around operators and after commas for better readability:\n* `a,b` should be `a, b`\n* `c=a*b` should be `c = a * b`\n\n---\n\n### Improved / Pythonic Version\n\nHere is how the code should look following standard Python best practices:\n\n```python\ndef multiply(num1, num2):\n    return num1 * num2\n\n\nprint(multiply(3, 4))\n```\n\n### Advanced (Modern Python with Type Hints and Docstring):\nFor production-level code, it's also good practice to include type hints and a short description:\n\n```python\ndef multiply(num1: int | float, num2: int | float) -> int | float:\n    \"\"\"Multiplies two numbers and returns the product.\"\"\"\n    return num1 * num2\n\n\nprint(multiply(3, 4))\n```",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "Technically, **there are no syntax or logical errors** in this code. If you run it, it will execute without errors and correctly output `12`.\n\nHowever, from a **code quality, readability, and Python style (PEP 8)** perspective, there are several things that can be improved:\n\n### 1. Poor Naming Conventions\n* **Function name (`F`):** According to Python's official style guide (PEP 8), function names should be lowercase with words separated by underscores (e.g., `multiply` instead of `F`). Single capital letters are usually reserved for Class names.\n* **Parameter names (`a`, `b`):** Single-letter variables are non-descriptive. It is better to use meaningful names like `num1`, `num2` or `factor1`, `factor2`.\n\n### 2. Unnecessary Intermediate Variable\nThe variable `c` is created just to be returned on the next line. You can return the result of `a * b` directly, which makes the code shorter and faster.\n\n### 3. Missing Spaces (Formatting)\nPEP 8 recommends adding spaces around operators and after commas for better readability:\n* `a,b` should be `a, b`\n* `c=a*b` should be `c = a * b`\n\n---\n\n### Improved / Pythonic Version\n\nHere is how the code should look following standard Python best practices:\n\n```python\ndef multiply(num1, num2):\n    return num1 * num2\n\n\nprint(multiply(3, 4))\n```\n\n### Advanced (Modern Python with Type Hints and Docstring):\nFor production-level code, it's also good practice to include type hints and a short description:\n\n```python\ndef multiply(num1: int | float, num2: int | float) -> int | float:\n    \"\"\"Multiplies two numbers and returns the product.\"\"\"\n    return num1 * num2\n\n\nprint(multiply(3, 4))\n```",
+        "latency_s": 5.8,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 5.8,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "style_only_ok": true,
+        "pass": false,
+        "actual_short": "Technically, **there are no syntax or logical errors** in this code. If you run it, | LEAK code block: def multiply(num1, num2):",
+        "guard_rewrites": 0
+      }
+    },
+    {
+      "id": "T09",
+      "title": "Correct, clean code",
+      "type": "Edge",
+      "expected_output": "status no_issues; no invented bugs; at most 2 low style notes",
+      "result": {
+        "version": "v1",
+        "raw_p1": "**There is nothing wrong with this code.** \n\nIt is syntactically correct, logically sound, follows PEP 8 style guidelines, and includes a helpful docstring.\n\n### Output\nWhen you run this code, it will produce the expected result:\n```text\n1 False\n2 True\n3 False\n4 True\n```\n\n---\n\n### Optional Improvements (Best Practices)\nWhile nothing is broken, here are a few minor enhancements you could make depending on your use case:\n\n1. **Add Type Hints (Python 3.5+):** \n   Adding type annotations makes your code more readable and helps IDEs catch bugs.\n   ```python\n   def is_even(number: int) -> bool:\n       \"\"\"Return True if number is even.\"\"\"\n       return number % 2 == 0\n   ```\n\n2. **Input Validation (if accepting user input):**\n   If `number` could accidentally be a float, string, or `None`, the `%` operator might raise a `TypeError`. If you want to make it robust against float inputs like `2.0`:\n   ```python\n   def is_even(number: int) -> bool:\n       \"\"\"Return True if number is an even integer.\"\"\"\n       if not isinstance(number, int):\n           return False\n       return number % 2 == 0\n   ``` *(Note: In Python, `isinstance(True, int)` is `True`, but for simple scripts, your original version is perfectly fine.)*",
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": "**There is nothing wrong with this code.** \n\nIt is syntactically correct, logically sound, follows PEP 8 style guidelines, and includes a helpful docstring.\n\n### Output\nWhen you run this code, it will produce the expected result:\n```text\n1 False\n2 True\n3 False\n4 True\n```\n\n---\n\n### Optional Improvements (Best Practices)\nWhile nothing is broken, here are a few minor enhancements you could make depending on your use case:\n\n1. **Add Type Hints (Python 3.5+):** \n   Adding type annotations makes your code more readable and helps IDEs catch bugs.\n   ```python\n   def is_even(number: int) -> bool:\n       \"\"\"Return True if number is even.\"\"\"\n       return number % 2 == 0\n   ```\n\n2. **Input Validation (if accepting user input):**\n   If `number` could accidentally be a float, string, or `None`, the `%` operator might raise a `TypeError`. If you want to make it robust against float inputs like `2.0`:\n   ```python\n   def is_even(number: int) -> bool:\n       \"\"\"Return True if number is an even integer.\"\"\"\n       if not isinstance(number, int):\n           return False\n       return number % 2 == 0\n   ``` *(Note: In Python, `isinstance(True, int)` is `True`, but for simple scripts, your original version is perfectly fine.)*",
+        "latency_s": 5.99,
+        "calls": [
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 1,
+            "seconds": 0.29,
+            "ok": false,
+            "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+          },
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 2,
+            "seconds": 0.74,
+            "ok": false,
+            "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Q"
+          },
+          {
+            "model": "gemini-3.5-flash",
+            "attempt": 3,
+            "seconds": 4.96,
+            "ok": true
+          }
+        ],
+        "schema_retried": false,
+        "syntax_check": null
+      },
+      "check": {
+        "json_valid": null,
+        "leak": true,
+        "status_ok": true,
+        "no_bugs_ok": true,
+        "pass": false,
+        "actual_short": "**There is nothing wrong with this code.** It is syntactically correct, logically sound, follows PEP | LEAK code block: def is_even(number: int) -> bool:",
+        "guard_rewrites": 0
+      }
+    }
+  ]
+}
