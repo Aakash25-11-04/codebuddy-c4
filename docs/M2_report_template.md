@@ -27,7 +27,7 @@ HOW THIS FILE WORKS
 
 **Links** (all open without requesting access)
 
-- Prototype: [FILL: https://....streamlit.app]
+- Prototype: https://codebuddy-c4-mnmykb7xf2wbtypxhez3dn.streamlit.app/
 - Repository: https://github.com/Aakash25-11-04/codebuddy-c4
 - Reel: [FILL: Drive or unlisted YouTube link] — length [FILL] seconds
 

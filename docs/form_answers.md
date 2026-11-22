@@ -13,7 +13,7 @@ Every number must match the PDF exactly.
 | 8 | Project type (max 2) | Pick the options closest to: "Web app / prototype" and "Prompt workflow / chaining" |
 | 9 | Main AI tool and model | Gemini 3.5 Flash via Google Gemini API (google-genai SDK), Streamlit app |
 | 10 | Number of prompts | **2** (P1 Reviewer, P2 Hint Guard) |
-| 11 | Prototype link | [FILL: https://<your-app>.streamlit.app] — test in incognito |
+| 11 | Prototype link | https://codebuddy-c4-mnmykb7xf2wbtypxhez3dn.streamlit.app/ — test in incognito |
 | 12 | Repository link | https://github.com/Aakash25-11-04/codebuddy-c4 — test in incognito |
 | 13 | Reel link | [FILL] |
 | 14 | Reel length | [FILL: exact seconds, 90–150] |

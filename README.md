@@ -4,7 +4,7 @@ SCSE4041 Prompt Engineering Mini Project. Problem **C4**: code review assistant 
 
 CodeBuddy reviews a first-year student's Python program and points out bugs, logic errors and style issues with **hints, never the full solution**. It uses a two-prompt chain on Gemini 3.5 Flash: **P1 Reviewer** finds and explains the issues, then **P2 Hint Guard** rewrites anything that gives the fix away.
 
-- **Prototype:** [FILL: https://<your-app>.streamlit.app]
+- **Prototype:** https://codebuddy-c4-mnmykb7xf2wbtypxhez3dn.streamlit.app/
 - **Reel:** [FILL]
 - **Repository:** https://github.com/Aakash25-11-04/codebuddy-c4
 - **Team:** Decentralized Vision (PE-B25-10): AAKASH RAUNIAR (S24CSEU0036, team leader), TANNU SHARMA (S24CSEU1420)
