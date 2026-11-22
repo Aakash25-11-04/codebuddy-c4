@@ -1,0 +1,95 @@
+{
+  "interpretation": "On the 9 tests that were run for both versions (T01–T09), the biggest improvement came from v1 to v3: passes rose from 0/9 to 9/9, solution leaks fell from 9/9 to 0/9, and v3 returned valid JSON in 9/9 runs and correctly reported `no_issues` for the clean code in T09, where v1 rewrote the function anyway. v2, tests T10–T16 and the full v4 chain (P1 + P2 Hint Guard) could not be run because the free-tier daily quota (20 requests per model) ran out; only v4's input validator was checked (T14, rejected with 0 API calls). All runs used `gemini-3.5-flash`, because `gemini-2.5-flash`, named in the prompt-file headers, returns 404 for new API keys.",
+  "metrics_note": "All numbers come from real API calls saved in `test-data/results/` (model `gemini-3.5-flash`; `gemini-2.5-flash`, named in the prompt-file headers, now returns 404 for new API keys). The free-tier quota of 20 requests per model per day ran out during the run, so each fraction is over the tests that were actually run: v1 and v3 on T01–T09, v4 on T14 only, and v2 not run.",
+  "test_table_note": "Before the API quota ran out, v4 could only be run on T14. For T01–T09 the table shows the v3 run, which uses the same P1 prompt text and settings as v4 but without the validator, schema retry and Hint Guard; these rows are marked *(v3 run)*. T10–T13, T15 and T16 were not run.",
+  "p2_sample_note": "**Sample run.** None yet. The P2 Hint Guard was not run in our test session because the free-tier daily API quota ran out before the v4 tests. We do not show an invented output; a real P2 sample will be added after the full re-run.",
+  "screenshot_note": "Screenshots of v4 runs on T01, T10 and T12 could not be taken because each needs two model calls and the API quota was used up. They will be added after the full re-run.",
+  "limitations": [
+    {
+      "title": "Evaluation is incomplete.",
+      "text": "The free-tier Gemini key allows 20 requests per model per day, and it ran out after 19 test runs. So v2, tests T10–T16 and the full v4 chain were not evaluated, and the P2 Hint Guard has no measured result yet.",
+      "short": "Free-tier quota (20 requests per model per day) ran out, so v2, T10–T16 and the v4 chain with P2 are not yet evaluated.",
+      "next": "Re-run `eval/run_eval.py --versions v1 v2 v3 v4` on a paid tier or after the quota resets, and report the full 16 × 4 table."
+    },
+    {
+      "title": "The deployed app shares the same quota.",
+      "text": "Each v4 review uses 2 model calls, so a free-tier key supports about 10 reviews a day. After that the app shows a 429 quota error.",
+      "short": "Each v4 review uses 2 calls, so the free tier allows about 10 reviews a day; after that the app shows a quota error.",
+      "next": "Move the key to a paid tier, show a friendly \"daily limit reached\" message, and skip P2 when a cheap local check finds no code-like text in the hints."
+    },
+    {
+      "title": "The leak check is rule-based.",
+      "text": "Our automatic test only catches fixes that match known snippets or code blocks, so a fix fully described in words could pass. It also needed one correction during testing: a block of printed program output (`1 False`) in v1 T09 was first counted as code, so a block now counts only if it contains a Python statement. (T09 is still counted as a leak because v1 also rewrote the whole function.)",
+      "short": "The leak check matches known fix snippets and code blocks, so a fix fully described in words could pass.",
+      "next": "Add an LLM-as-judge leak check with a rubric and compare it with a human check on 10 outputs."
+    },
+    {
+      "title": "Python only, short programs.",
+      "text": "Other languages are rejected and programs over 150 lines are refused.",
+      "short": "Only Python programs of up to 150 lines are supported.",
+      "next": "Test C support with a separate few-shot set."
+    }
+  ],
+  "m2_cells": [
+    [
+      "| Input validator | Rejects empty input and code over 150 lines / 6000 characters before any API call | [[AUTO: Working / Partly working]] | Pure Python |",
+      "| Input validator | Rejects empty input and code over 150 lines / 6000 characters before any API call | Working | Pure Python. Test T14 (v4) was rejected with 0 API calls |"
+    ],
+    [
+      "| Syntax pre-check | Finds SyntaxError / IndentationError line with `ast.parse` | [[AUTO]] | Code is never executed |",
+      "| Syntax pre-check | Finds SyntaxError / IndentationError line with `ast.parse` | Working | Code is never executed. Used in all v3 runs; in T02 v3 reported the syntax issue on the correct line 2 |"
+    ],
+    [
+      "| P1 Reviewer | Finds issues, explains with hints, JSON output | [[AUTO]] | [[AUTO: e.g. JSON valid in x/16]] |",
+      "| P1 Reviewer | Finds issues, explains with hints, JSON output | Working | JSON valid 9/9, pass 9/9 on T01–T09 (v3 runs, same P1 text). T10–T16 not run (API quota) |"
+    ],
+    [
+      "| Schema check + retry | Validates P1 JSON, retries once if invalid | [[AUTO]] | |",
+      "| Schema check + retry | Validates P1 JSON, retries once if invalid | Built, not yet tested | Runs only in v4; the v4 model calls could not be made (API quota) |"
+    ],
+    [
+      "| P2 Hint Guard | Rewrites leaking hints | [[AUTO]] | [[AUTO: leaks found/rewritten in the test run]] |",
+      "| P2 Hint Guard | Rewrites leaking hints | Built, not yet tested | 0 live runs: the free-tier quota ran out before the v4 tests |"
+    ],
+    [
+      "| Streamlit UI | Code box, version selector, issue cards with hint reveal | [[AUTO]] | Deployed on Streamlit Community Cloud |",
+      "| Streamlit UI | Code box, version selector, issue cards with hint reveal | Partly working | Deployed on Streamlit Community Cloud. The UI and validator work; reviews show a 429 quota error until the daily quota resets |"
+    ],
+    [
+      "| Evaluation script | Runs 16 tests × 4 versions, writes results and metrics | [[AUTO]] | |",
+      "| Evaluation script | Runs 16 tests × 4 versions, writes results and metrics | Working | Saved 19 real test runs (v1: 9, v3: 9, v4: 1) and wrote `docs/metrics.md` |"
+    ],
+    [
+      "[[AUTO: e.g. \"Pass 3/16. Gave corrected code in 11/16 outputs (forbidden snippet or code block). Answered the cricket question in T15.\"]]",
+      "Run on T01–T09 only (API quota). Pass 0/9. Solution leaked in 9/9: the exact fix in 7/9 (e.g. `range(1, n + 1)` in T01, `count += 1` in T05) and a rewritten function in T08 and T09, even though T09 had nothing wrong. Expected line/keyword found in 7/7. Avg latency 7.1 s."
+    ],
+    [
+      "[[AUTO: Pass x/16; JSON valid x/16; leaks x/16; ...]]",
+      "Not run: the free-tier daily quota (20 requests per model) ran out before v2 was reached. No result is claimed."
+    ],
+    [
+      "v2 [[AUTO: describe the real v2 failures, e.g. wrong line numbers, JSON broken in n runs, invented bugs in T09, followed the comment in T12]].",
+      "v2 was not run, so these changes were designed from the v1 failures (the fix given away in every output; free text the app cannot render) and from the risks in our test set (refusals, prompt injection, non-Python input)."
+    ],
+    [
+      "| [[AUTO]] |\n| v4 (final)",
+      "| Run on T01–T09 only. Pass 9/9, JSON valid 9/9, expected line found 7/7, solution leaked 0/9, correct status 8/8 (T08 and T09 correctly `no_issues`, with no bugs invented for the clean code in T09). Avg latency 6.3 s. |\n| v4 (final)"
+    ],
+    [
+      "[[AUTO: describe remaining v3 failures, e.g. leaks in hints / empty input sent to model]].",
+      "v3 had no failures on the 9 tests it ran, but it still sends empty input to the model and has nothing to catch a hint that slips the fix. v4 adds a code-side validator and a second-pass check for these cases."
+    ],
+    [
+      "| [[AUTO]] |\n\n[[AUTO: one sentence per version",
+      "| Only T14 (empty input) was run: rejected by the validator with 0 API calls, pass 1/1. The other 15 tests (P1 + P2 chain) were not run because the daily quota was used up. |\n\n[[AUTO: one sentence per version"
+    ],
+    [
+      "[[AUTO: one sentence per version with the most important observed number, e.g. \"Solution leaks fell from 11/16 (v1) to 0/16 (v4).\"]]",
+      "**Observed:** v1 leaked the solution in 9/9 tests run and passed 0/9. v2 was not run. v3 passed 9/9 on the same tests, with 0/9 leaks and valid JSON every time. v4 passed its one test (T14) without any model call."
+    ],
+    [
+      "We split this out because a single prompt that has to both find the bug and avoid stating the fix sometimes still slipped the fix into a hint; a separate checker with one job is easier to make reliable.",
+      "We split this out because a single prompt that has to both find the bug and avoid stating the fix can still slip the fix into a hint, and a separate checker with one job is easier to make reliable. In our runs the v1 prompt leaked the fix in 9/9 outputs and v3 in 0/9, so P2 is a safety net whose effect is not yet measured."
+    ]
+  ]
+}

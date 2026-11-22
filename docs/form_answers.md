@@ -21,8 +21,8 @@ Every number must match the PDF exactly.
 | 16 | Upload supporting doc | `DecentralizedVision_TechnicalReport.pdf` |
 | 17 | Number of test inputs | **16** |
 | 18 | Number of prompt versions | **4** (v1, v2, v3, v4 final) |
-| 19 | Prototype status | "All modules working" ONLY if every row in the Section 3 status table says Working; otherwise "Some modules working" |
-| 20 | Working modules | Copy the names of modules marked Working, one per line: Input validator / Syntax pre-check / P1 Reviewer / Schema check + retry / P2 Hint Guard / Streamlit UI / Evaluation script |
+| 19 | Prototype status | **Some modules working** (Schema check + retry and P2 Hint Guard are built but not yet tested; the Streamlit UI is partly working because of the API quota) |
+| 20 | Working modules | Input validator<br>Syntax pre-check<br>P1 Reviewer<br>Evaluation script |
 | 21 | Upload M2 PDF | `M2_PE-B25-10_CodeBuddy.pdf` (max 10 MB) |
 | 22 | Main task of each member | S24CSEU0036 – AAKASH RAUNIAR – Built the Streamlit app, pipeline and evaluation script; ran the tests; deployed the app<br>S24CSEU1420 – TANNU SHARMA – Wrote prompts P1 (v1–v3) and P2 Hint Guard, designed the 16 test cases, made the diagrams, report and reel |
 | 23 | Anything else | "Prototype needs no login. Paste Python code, choose v4 (final) and press Review. The version selector lets you compare v1–v4. If the app is asleep, press 'Yes, get this app back up' and wait ~30 s." |

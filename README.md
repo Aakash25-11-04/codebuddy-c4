@@ -9,6 +9,9 @@ CodeBuddy reviews a first-year student's Python program and points out bugs, log
 - **Repository:** https://github.com/Aakash25-11-04/codebuddy-c4
 - **Team:** Decentralized Vision (PE-B25-10): AAKASH RAUNIAR (S24CSEU0036, team leader), TANNU SHARMA (S24CSEU1420)
 
+## Status (22 Nov 2026)
+The Gemini free tier allows 20 requests per model per day, and this ran out during evaluation. Real results so far: v1 and v3 on tests T01–T09 (v1 passed 0/9 and leaked the fix in 9/9; v3 passed 9/9 with 0 leaks), and v4 on T14. See [docs/metrics.md](docs/metrics.md). The model is `gemini-3.5-flash`, because `gemini-2.5-flash` returns 404 for new API keys.
+
 ## How to use the prototype
 Open the prototype link, paste Python code, add a question if you have one, keep **v4 (final)** selected and press **Review**. Use the version selector to compare earlier prompt versions.
 

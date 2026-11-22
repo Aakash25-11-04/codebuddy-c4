@@ -26,7 +26,7 @@ The app shows each issue as a card with the hint hidden behind a button. The API
 - **Structured output:** a fixed JSON schema (status, summary, issues with line/type/severity/what/why/hint, refused_solution_request, praise, next_step), enforced with JSON mode plus a schema check and one retry.
 - **Few-shot examples:** two worked reviews. One shows a logic error plus a style note; the other shows a refused "write the correct code" request.
 - **Context injection:** line-numbered code and the `ast` syntax result, so line numbers are grounded in real data.
-- **Prompt chaining:** a separate checker prompt (P2) with one narrow job, because one prompt asked to both find and not state the fix still leaked.
+- **Prompt chaining:** a separate checker prompt (P2) with one narrow job, as a safety net in case a hint still states the fix. Its effect is not yet measured, because the v4 runs were stopped by the API quota.
 
 ## 4. Testing and results
 

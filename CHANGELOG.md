@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-22 (evening)
+- Built `codebuddy/prompts.py`, `codebuddy/pipeline.py` (validator, ast syntax pre-check, P1, schema check + retry, P2 Hint Guard), `app.py` (Streamlit) and `eval/run_eval.py`.
+- Switched the model to `gemini-3.5-flash`: `gemini-2.5-flash` returns 404 for new API keys, and `gemini-3.8-flash` and `gemini-3.7-flash` returned 503 (high demand).
+- Ran the evaluation until the free-tier quota (20 requests per model per day) ran out: v1 and v3 on T01–T09, and v4 on T14. Results are in `test-data/results/` and `docs/metrics.md`.
+- Leak check fix: a code block that only shows printed program output no longer counts as a leak (found on v1 T09).
+- Deployed the app to Streamlit Community Cloud; filled in the Milestone 2 report and technical report and built the PDFs.
+
 ## 2026-11-22
 - Added prompt versions v1 (baseline), v2 (role + no-solution rule + JSON in prompt) and v3 (10 rules, 2 few-shot examples, line numbers, ast syntax check, JSON mode, temperature 0.2).
 - Added the final two-prompt chain: P1 Reviewer + P2 Hint Guard, with an input validator and a schema check with retry (v4).
