@@ -18,7 +18,9 @@ def shoot(page, test_id: str):
     page.get_by_text("Your review will appear here").wait_for(timeout=60000)
     sel = page.locator("[data-testid='stSelectbox']").first
     sel.click()
-    page.get_by_role("option", name=test_id, exact=False).first.click()
+    page.keyboard.type(test_id)
+    page.wait_for_timeout(500)
+    page.keyboard.press("Enter")
     page.wait_for_timeout(1500)
     page.get_by_text("v4 final").click()
     page.get_by_role("button", name="Review").click()

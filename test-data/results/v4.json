@@ -1,0 +1,39 @@
+{
+  "version": "v4",
+  "model": "gemini-3.5-flash",
+  "run_at": "2026-11-22 22:44:51",
+  "tests": [
+    {
+      "id": "T14",
+      "title": "Empty input",
+      "type": "Invalid",
+      "expected_output": "Rejected before any model call (v4) / asks for code; no review",
+      "result": {
+        "version": "v4",
+        "raw_p1": null,
+        "p1_json": null,
+        "raw_p2": null,
+        "p2_json": null,
+        "final": {
+          "status": "invalid_input",
+          "summary": "There is no code to review yet. Please paste your Python program in the box and press Review.",
+          "issues": [],
+          "refused_solution_request": false,
+          "praise": "",
+          "next_step": "Paste a Python program and press Review."
+        },
+        "latency_s": 0.0,
+        "calls": [],
+        "validator": "rejected"
+      },
+      "check": {
+        "json_valid": true,
+        "leak": false,
+        "status_ok": true,
+        "pass": true,
+        "actual_short": "status=invalid_input; There is no code to review yet. Please paste your Python program",
+        "guard_rewrites": 0
+      }
+    }
+  ]
+}
