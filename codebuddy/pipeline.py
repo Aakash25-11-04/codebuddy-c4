@@ -46,11 +46,14 @@ def _get_client():
     global _client
     if _client is None:
         from google import genai
+        from google.genai import types
 
         key = get_api_key()
         if not key:
             raise RuntimeError("GEMINI_API_KEY is not set (env var or Streamlit secrets).")
-        _client = genai.Client(api_key=key)
+        # 120 s timeout per request; SDK retries off because call_model() does its own backoff.
+        _client = genai.Client(api_key=key, http_options=types.HttpOptions(
+            timeout=120_000, retry_options=types.HttpRetryOptions(attempts=1)))
     return _client
 
 
