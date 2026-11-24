@@ -15,7 +15,7 @@ Every number must match the PDF exactly.
 | 10 | Number of prompts | **2** (P1 Reviewer, P2 Hint Guard) |
 | 11 | Prototype link | https://codebuddy-c4-mnmykb7xf2wbtypxhez3dn.streamlit.app/ — test in incognito |
 | 12 | Repository link | https://github.com/Aakash25-11-04/codebuddy-c4 — test in incognito |
-| 13 | Reel link | Paste your Drive ("Anyone with the link") or unlisted YouTube link of `build/reel/CodeBuddy_reel.mp4` |
+| 13 | Reel link | https://youtu.be/RVo2IyIaZ9A |
 | 14 | Reel length | **138** seconds |
 | 15 | Supporting document type | Technical report |
 | 16 | Upload supporting doc | `DecentralizedVision_TechnicalReport.pdf` |
