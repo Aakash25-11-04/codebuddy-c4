@@ -139,10 +139,10 @@ def schema_errors(obj: Any) -> list[str]:
 # ---------------------------------------------------------------- model call
 def _is_retryable(exc: Exception) -> bool:
     code = getattr(exc, "code", None) or getattr(exc, "status_code", None)
-    if code in (429, 500, 503):
+    if code in (429, 500, 503, 504):
         return True
     msg = str(exc)
-    return any(s in msg for s in ("429", "503", "RESOURCE_EXHAUSTED", "UNAVAILABLE", "overloaded"))
+    return any(s in msg for s in ("429", "503", "504", "RESOURCE_EXHAUSTED", "UNAVAILABLE", "DEADLINE_EXCEEDED", "overloaded"))
 
 
 def _is_not_found(exc: Exception) -> bool:
