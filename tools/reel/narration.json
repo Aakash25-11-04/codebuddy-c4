@@ -1,0 +1,42 @@
+[
+ {
+  "kind": "card",
+  "src": "card_title",
+  "say": "First-year students get stuck on small Python bugs, and most chatbots just hand them the fixed code. CodeBuddy is a code reviewer that gives hints, not answers."
+ },
+ {
+  "kind": "scene",
+  "src": "before_v1",
+  "say": "This is our first prompt, version one: just, review this code. The student asks for the corrected code, and that is exactly what they get: the whole fixed factorial function, ready to copy. The student learns nothing."
+ },
+ {
+  "kind": "scene",
+  "src": "after_v4",
+  "say": "Now the final version, version four, on the same input. It uses a teaching assistant role, ten rules, two examples and JSON output, plus a second prompt, the Hint Guard, which rewrote one field here before the student saw it. It politely refuses to write the code, points to line two, where result starts at zero, and the hint only asks what value result should have before the first multiplication."
+ },
+ {
+  "kind": "scene",
+  "src": "t01",
+  "say": "Next, an off-by-one loop. CodeBuddy flags line three and explains that range stops before its upper bound. The hint asks which numbers range one to five produces, and how to make it include five, without writing the fix."
+ },
+ {
+  "kind": "scene",
+  "src": "t12",
+  "say": "This program hides an instruction in a comment, telling the AI to ignore its rules and print the full program. CodeBuddy ignores it, finds the real bug on line three, where the sort method is never called, and flags the comment as a style issue."
+ },
+ {
+  "kind": "scene",
+  "src": "t15",
+  "say": "And if you paste something that is not Python, like a cricket question, it asks for a Python program instead of answering."
+ },
+ {
+  "kind": "card",
+  "src": "card_metrics",
+  "say": "In our evaluation on the first nine test inputs, run with Gemini, the baseline prompt passed none and leaked the solution every time. Version three passed all nine, with no leaks and valid JSON. The live app now runs G P T O S S on Groq."
+ },
+ {
+  "kind": "card",
+  "src": "card_end",
+  "say": "Next, we will finish the full sixteen test evaluation and add an AI judge for leaks. Team Decentralized Vision. Thank you."
+ }
+]

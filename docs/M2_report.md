@@ -22,7 +22,7 @@
 
 - Prototype: https://codebuddy-c4-mnmykb7xf2wbtypxhez3dn.streamlit.app/
 - Repository: https://github.com/Aakash25-11-04/codebuddy-c4
-- Reel: [FILL: Drive or unlisted YouTube link] — length [FILL] seconds
+- Reel: link given in the submission form (Q13) — length 138 seconds
 
 <div style="page-break-after: always"></div>
 
