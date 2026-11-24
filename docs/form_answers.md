@@ -11,7 +11,7 @@ Every number must match the PDF exactly.
 | 6 | Group (batch) | B25 - B36 |
 | 7 | All enrollment numbers | S24CSEU0036<br>S24CSEU1420 |
 | 8 | Project type (max 2) | Pick the options closest to: "Web app / prototype" and "Prompt workflow / chaining" |
-| 9 | Main AI tool and model | Gemini 3.5 Flash via Google Gemini API (google-genai SDK), Streamlit app (the deployed app uses Gemini 3.5 Flash-Lite because 3.5 Flash was overloaded) |
+| 9 | Main AI tool and model | Gemini 3.5 Flash via Google Gemini API (google-genai SDK), Streamlit app (the deployed app now uses gpt-oss-120b via the free Groq API because Gemini was overloaded) |
 | 10 | Number of prompts | **2** (P1 Reviewer, P2 Hint Guard) |
 | 11 | Prototype link | https://codebuddy-c4-mnmykb7xf2wbtypxhez3dn.streamlit.app/ — test in incognito |
 | 12 | Repository link | https://github.com/Aakash25-11-04/codebuddy-c4 — test in incognito |

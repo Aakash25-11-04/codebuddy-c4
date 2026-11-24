@@ -22,7 +22,6 @@ CONFIG_PATH = ROOT / "prompts" / "config.json"
 CALL_GAP_S = 0.0
 _last_call_end = 0.0
 
-_client = None
 
 
 # ---------------------------------------------------------------- config / key
@@ -30,31 +29,69 @@ def load_config() -> dict:
     return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
 
 
-def get_api_key() -> str | None:
+KEY_NAMES = {"gemini": "GEMINI_API_KEY", "groq": "GROQ_API_KEY"}
+_clients: dict = {}
+
+
+def provider() -> str:
+    return load_config().get("provider", "gemini")
+
+
+def get_api_key(prov: str | None = None) -> str | None:
+    name = KEY_NAMES[prov or provider()]
     try:
         import streamlit as st  # only present when running the app
 
-        key = st.secrets.get("GEMINI_API_KEY")  # type: ignore[attr-defined]
+        key = st.secrets.get(name)  # type: ignore[attr-defined]
         if key:
             return str(key)
     except Exception:
         pass
-    return os.environ.get("GEMINI_API_KEY")
+    return os.environ.get(name)
 
 
-def _get_client():
-    global _client
-    if _client is None:
-        from google import genai
-        from google.genai import types
-
-        key = get_api_key()
+def _get_client(prov: str):
+    if prov not in _clients:
+        key = get_api_key(prov)
         if not key:
-            raise RuntimeError("GEMINI_API_KEY is not set (env var or Streamlit secrets).")
-        # 120 s timeout per request; SDK retries off because call_model() does its own backoff.
-        _client = genai.Client(api_key=key, http_options=types.HttpOptions(
-            timeout=120_000, retry_options=types.HttpRetryOptions(attempts=1)))
-    return _client
+            raise RuntimeError(f"{KEY_NAMES[prov]} is not set (env var or Streamlit secrets).")
+        if prov == "groq":
+            from groq import Groq
+
+            # SDK retries off because call_model() does its own backoff.
+            _clients[prov] = Groq(api_key=key, timeout=120.0, max_retries=0)
+        else:
+            from google import genai
+            from google.genai import types
+
+            # 120 s timeout per request; SDK retries off because call_model() does its own backoff.
+            _clients[prov] = genai.Client(api_key=key, http_options=types.HttpOptions(
+                timeout=120_000, retry_options=types.HttpRetryOptions(attempts=1)))
+    return _clients[prov]
+
+
+def _generate(prov: str, model: str, system: str, user: str, temperature, json_mode: bool) -> str:
+    if prov == "groq":
+        messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": user}]
+        kwargs: dict[str, Any] = {"model": model, "messages": messages}
+        if temperature is not None:
+            kwargs["temperature"] = temperature
+        if json_mode:
+            kwargs["response_format"] = {"type": "json_object"}
+        resp = _get_client(prov).chat.completions.create(**kwargs)
+        return resp.choices[0].message.content or ""
+    from google.genai import types
+
+    cfg_kwargs: dict[str, Any] = {}
+    if system:
+        cfg_kwargs["system_instruction"] = system
+    if temperature is not None:
+        cfg_kwargs["temperature"] = temperature
+    if json_mode:
+        cfg_kwargs["response_mime_type"] = "application/json"
+    gen_cfg = types.GenerateContentConfig(**cfg_kwargs) if cfg_kwargs else None
+    resp = _get_client(prov).models.generate_content(model=model, contents=user, config=gen_cfg)
+    return resp.text or ""
 
 
 # ---------------------------------------------------------------- code steps
@@ -156,18 +193,9 @@ class ModelNotFound(RuntimeError):
 
 def call_model(model: str, system: str, user: str, temperature: float | None,
                json_mode: bool, calls: list) -> str:
-    """One Gemini call with exponential backoff on 429/503 (max 5 tries)."""
+    """One model call (provider from config) with exponential backoff on 429/5xx (max 5 tries)."""
     global _last_call_end
-    from google.genai import types
-
-    cfg_kwargs: dict[str, Any] = {}
-    if system:
-        cfg_kwargs["system_instruction"] = system
-    if temperature is not None:
-        cfg_kwargs["temperature"] = temperature
-    if json_mode:
-        cfg_kwargs["response_mime_type"] = "application/json"
-    gen_cfg = types.GenerateContentConfig(**cfg_kwargs) if cfg_kwargs else None
+    prov = provider()
 
     delay = 4.0
     for attempt in range(1, 6):
@@ -176,11 +204,10 @@ def call_model(model: str, system: str, user: str, temperature: float | None,
             time.sleep(wait)
         t0 = time.time()
         try:
-            resp = _get_client().models.generate_content(model=model, contents=user, config=gen_cfg)
+            text = _generate(prov, model, system, user, temperature, json_mode)
             dt = time.time() - t0
             _last_call_end = time.time()
-            text = resp.text or ""
-            calls.append({"model": model, "attempt": attempt, "seconds": round(dt, 2), "ok": True})
+            calls.append({"provider": prov, "model": model, "attempt": attempt, "seconds": round(dt, 2), "ok": True})
             return text
         except Exception as exc:  # noqa: BLE001
             dt = time.time() - t0

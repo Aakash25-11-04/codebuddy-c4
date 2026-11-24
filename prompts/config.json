@@ -1,5 +1,6 @@
 {
-  "model": "gemini-3.5-flash-lite",
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
   "versions": {
     "v1": {"p1_file": "prompts/v1/P1_reviewer.txt", "temperature": null, "json_mode": false, "numbered_code": false, "syntax_check": false, "validator": false, "schema_retry": false, "guard": false},
     "v2": {"p1_file": "prompts/v2/P1_reviewer.txt", "temperature": null, "json_mode": false, "numbered_code": false, "syntax_check": false, "validator": false, "schema_retry": false, "guard": false},

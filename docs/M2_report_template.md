@@ -48,7 +48,7 @@ HOW THIS FILE WORKS
 3. *P1 Reviewer:* role prompt + 10 rules + 2 few-shot examples + fixed JSON schema. It finds and explains the issues.
 4. *P2 Hint Guard:* a second, stricter prompt at temperature 0 that only checks P1's review for solution leaks and rewrites leaking fields into guiding questions. We split this out because a single prompt that has to both find the bug and avoid stating the fix sometimes still slipped the fix into a hint; a separate checker with one job is easier to make reliable.
 
-**Tool and model and why.** Gemini 3.5 Flash (`gemini-3.5-flash`, used for all evaluation runs) and Gemini 3.5 Flash-Lite (`gemini-3.5-flash-lite`, used by the deployed app since 24 Nov 2026, because `gemini-3.5-flash` kept returning 503 "high demand" errors), through the Google `google-genai` Python SDK, with a Streamlit front end on Streamlit Community Cloud. Reasons: free API tier enough for testing, fast responses (a review needs two calls), native JSON output mode (`response_mime_type="application/json"`), and Streamlit lets the evaluator open a real link without installing anything.
+**Tool and model and why.** Gemini 3.5 Flash (`gemini-3.5-flash`, used for all evaluation runs) through the Google `google-genai` Python SDK. Since 24 Nov 2026 the deployed app uses `openai/gpt-oss-120b` through the free Groq API (`groq` SDK), because Gemini kept returning 503 "high demand" errors; the provider and model are set in `prompts/config.json`. The app runs with a Streamlit front end on Streamlit Community Cloud. Reasons: free API tier enough for testing, fast responses (a review needs two calls), native JSON output mode (`response_mime_type="application/json"`), and Streamlit lets the evaluator open a real link without installing anything.
 
 **What changed since Milestone 1.** In Milestone 1 we proposed CodeBuddy as a single review prompt ("review this code and tell me what is wrong with it") with free-text output; this is kept as v1, our baseline. Milestone 2 adds (1) a teaching-assistant role with 10 explicit rules, (2) a fixed JSON schema with JSON mode, (3) two few-shot examples, (4) line numbering and the `ast` syntax pre-check, (5) the second-pass Hint Guard prompt, (6) an input validator and schema check with retry, (7) a 16-input test set with automatic checks, and (8) a deployed Streamlit prototype.
 
@@ -79,7 +79,7 @@ HOW THIS FILE WORKS
 | Prompt ID and name | P1 — Reviewer |
 | Step in the workflow | Step 3 of 4 (after validator and syntax pre-check, before Hint Guard) |
 | Purpose | Find bugs, logic errors and style issues and explain each with a hint, without giving the fix. |
-| Tool and model | Google Gemini API (`google-genai` SDK): gemini-3.5-flash in the evaluation runs; gemini-3.5-flash-lite in the deployed app (see 2(a)) |
+| Tool and model | gemini-3.5-flash via the Google Gemini API (`google-genai` SDK) in the evaluation runs; openai/gpt-oss-120b via the Groq API in the deployed app (see 2(a)) |
 | Settings | temperature 0.2, `response_mime_type="application/json"`, other settings default |
 | Number of examples | 2 (logic error + style; refused "give me the code" request) |
 | Output format | JSON: status, summary, issues[line, type, severity, what, why, hint], refused_solution_request, praise, next_step |
@@ -122,7 +122,7 @@ Actual output (P1):
 | Prompt ID and name | P2 — Hint Guard |
 | Step in the workflow | Step 4 of 4 (last step, after P1) |
 | Purpose | Detect and rewrite any part of P1's review that gives away the solution. |
-| Tool and model | Google Gemini API (`google-genai` SDK): gemini-3.5-flash in the evaluation runs; gemini-3.5-flash-lite in the deployed app (see 2(a)) |
+| Tool and model | gemini-3.5-flash via the Google Gemini API (`google-genai` SDK) in the evaluation runs; openai/gpt-oss-120b via the Groq API in the deployed app (see 2(a)) |
 | Settings | temperature 0, `response_mime_type="application/json"`, other settings default |
 | Number of examples | 0 (two inline leak examples inside the rules) |
 | Output format | Same JSON as P1 + `guard: {leaks_found, fields_rewritten}` |

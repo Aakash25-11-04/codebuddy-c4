@@ -87,7 +87,7 @@ p em { color: #475569; }
 <li><em>P1 Reviewer:</em> role prompt + 10 rules + 2 few-shot examples + fixed JSON schema. It finds and explains the issues.</li>
 <li><em>P2 Hint Guard:</em> a second, stricter prompt at temperature 0 that only checks P1's review for solution leaks and rewrites leaking fields into guiding questions. We split this out because a single prompt that has to both find the bug and avoid stating the fix can still slip the fix into a hint, and a separate checker with one job is easier to make reliable. In our runs the v1 prompt leaked the fix in 9/9 outputs and v3 in 0/9, so P2 is a safety net whose effect is not yet measured.</li>
 </ol>
-<p><strong>Tool and model and why.</strong> Gemini 3.5 Flash through the Google <code>google-genai</code> Python SDK, with a Streamlit front end on Streamlit Community Cloud. Reasons: free API tier enough for testing, fast responses (a review needs two calls), native JSON output mode (<code>response_mime_type="application/json"</code>), and Streamlit lets the evaluator open a real link without installing anything.</p>
+<p><strong>Tool and model and why.</strong> Gemini 3.5 Flash (<code>gemini-3.5-flash</code>, used for all evaluation runs) through the Google <code>google-genai</code> Python SDK. Since 24 Nov 2026 the deployed app uses <code>openai/gpt-oss-120b</code> through the free Groq API (<code>groq</code> SDK), because Gemini kept returning 503 "high demand" errors; the provider and model are set in <code>prompts/config.json</code>. The app runs with a Streamlit front end on Streamlit Community Cloud. Reasons: free API tier enough for testing, fast responses (a review needs two calls), native JSON output mode (<code>response_mime_type="application/json"</code>), and Streamlit lets the evaluator open a real link without installing anything.</p>
 <p><strong>What changed since Milestone 1.</strong> In Milestone 1 we proposed CodeBuddy as a single review prompt ("review this code and tell me what is wrong with it") with free-text output; this is kept as v1, our baseline. Milestone 2 adds (1) a teaching-assistant role with 10 explicit rules, (2) a fixed JSON schema with JSON mode, (3) two few-shot examples, (4) line numbering and the <code>ast</code> syntax pre-check, (5) the second-pass Hint Guard prompt, (6) an input validator and schema check with retry, (7) a 16-input test set with automatic checks, and (8) a deployed Streamlit prototype.</p>
 <h2>2(b) Diagrams</h2>
 <p><strong>Figure 1 — Prompt workflow</strong></p>
@@ -122,7 +122,7 @@ p em { color: #475569; }
 </tr>
 <tr>
 <td>Tool and model</td>
-<td>Google Gemini API (<code>google-genai</code> SDK), gemini-3.5-flash</td>
+<td>gemini-3.5-flash via the Google Gemini API (<code>google-genai</code> SDK) in the evaluation runs; openai/gpt-oss-120b via the Groq API in the deployed app (see 2(a))</td>
 </tr>
 <tr>
 <td>Settings</td>
@@ -295,7 +295,7 @@ print(sum_to_n(5))
 </tr>
 <tr>
 <td>Tool and model</td>
-<td>Google Gemini API (<code>google-genai</code> SDK), gemini-3.5-flash</td>
+<td>gemini-3.5-flash via the Google Gemini API (<code>google-genai</code> SDK) in the evaluation runs; openai/gpt-oss-120b via the Groq API in the deployed app (see 2(a))</td>
 </tr>
 <tr>
 <td>Settings</td>
@@ -939,11 +939,11 @@ Review this code following all the rules. Return only the JSON object.
 <ol>
 <li><strong>Validator (code):</strong> rejects empty input or code over 150 lines / 6000 characters, with no model call.</li>
 <li><strong>Syntax pre-check (code):</strong> <code>ast.parse</code> reports the exact SyntaxError/IndentationError line. The student's code is parsed, never executed.</li>
-<li><strong>P1 Reviewer (LLM):</strong> Gemini 3.5 Flash, temperature 0.2, JSON mode. Role prompt, 10 rules, 2 few-shot examples and a fixed schema. The output is checked against the schema and retried once if invalid.</li>
-<li><strong>P2 Hint Guard (LLM):</strong> Gemini 3.5 Flash, temperature 0, JSON mode. Rewrites any field that states the fix as a guiding question and records <code>leaks_found</code>.</li>
+<li><strong>P1 Reviewer (LLM):</strong> Gemini 3.5 Flash in the evaluation runs (the deployed app uses gpt-oss-120b on Groq; see below), temperature 0.2, JSON mode. Role prompt, 10 rules, 2 few-shot examples and a fixed schema. The output is checked against the schema and retried once if invalid.</li>
+<li><strong>P2 Hint Guard (LLM):</strong> the same model as P1, temperature 0, JSON mode. Rewrites any field that states the fix as a guiding question and records <code>leaks_found</code>.</li>
 </ol>
 <p>The app shows each issue as a card with the hint hidden behind a button. The API key is kept in Streamlit secrets, never in the repository.</p>
-<p><strong>Tools:</strong> Python 3, Streamlit, <code>google-genai</code> SDK, Gemini 3.5 Flash, GitHub, Streamlit Community Cloud.</p>
+<p><strong>Tools:</strong> Python 3, Streamlit, <code>google-genai</code> and <code>groq</code> SDKs, Gemini 3.5 Flash, gpt-oss-120b (Groq), GitHub, Streamlit Community Cloud. All evaluation numbers come from <code>gemini-3.5-flash</code>; the deployed app now runs on <code>openai/gpt-oss-120b</code> through the free Groq API, because on 24 Nov 2026 Gemini (<code>gemini-3.5-flash</code> and <code>gemini-3.5-flash-lite</code>) kept returning 503 "high demand" errors.</p>
 <h3>3. Prompt design</h3>
 <ul>
 <li><strong>Role prompting:</strong> "CodeBuddy, a patient teaching assistant for first-year B.Tech students" sets the audience and tone (simple English, at most 30 words per field, explain terms).</li>

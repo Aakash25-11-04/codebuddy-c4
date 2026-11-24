@@ -3,7 +3,7 @@
 ## 2026-11-24
 - Deployed app: added the missing `GEMINI_API_KEY` secret on Streamlit Cloud; the pipeline now also retries on 504 errors.
 - Switched the app model to `gemini-3.5-flash-lite`, because `gemini-3.5-flash` kept returning 503 (high demand). The evaluation results in `test-data/results/` are still the `gemini-3.5-flash` runs.
-- Recorded the reel from real runs of the deployed app (`tools/reel/`).
+- Added a Groq provider to the pipeline and switched the app to `openai/gpt-oss-120b` on the free Groq API, because Gemini (`gemini-3.5-flash` and `-lite`) kept returning 503. Real v4 reviews on T01 and T10 took about 5 s each. Gemini stays available via `provider` in `prompts/config.json`.
 
 ## 2026-11-22 (evening)
 - Built `codebuddy/prompts.py`, `codebuddy/pipeline.py` (validator, ast syntax pre-check, P1, schema check + retry, P2 Hint Guard), `app.py` (Streamlit) and `eval/run_eval.py`.

@@ -22,11 +22,11 @@ p em { color: #475569; }
 <ol>
 <li><strong>Validator (code):</strong> rejects empty input or code over 150 lines / 6000 characters, with no model call.</li>
 <li><strong>Syntax pre-check (code):</strong> <code>ast.parse</code> reports the exact SyntaxError/IndentationError line. The student's code is parsed, never executed.</li>
-<li><strong>P1 Reviewer (LLM):</strong> Gemini 3.5 Flash, temperature 0.2, JSON mode. Role prompt, 10 rules, 2 few-shot examples and a fixed schema. The output is checked against the schema and retried once if invalid.</li>
-<li><strong>P2 Hint Guard (LLM):</strong> Gemini 3.5 Flash, temperature 0, JSON mode. Rewrites any field that states the fix as a guiding question and records <code>leaks_found</code>.</li>
+<li><strong>P1 Reviewer (LLM):</strong> Gemini 3.5 Flash in the evaluation runs (the deployed app uses gpt-oss-120b on Groq; see below), temperature 0.2, JSON mode. Role prompt, 10 rules, 2 few-shot examples and a fixed schema. The output is checked against the schema and retried once if invalid.</li>
+<li><strong>P2 Hint Guard (LLM):</strong> the same model as P1, temperature 0, JSON mode. Rewrites any field that states the fix as a guiding question and records <code>leaks_found</code>.</li>
 </ol>
 <p>The app shows each issue as a card with the hint hidden behind a button. The API key is kept in Streamlit secrets, never in the repository.</p>
-<p><strong>Tools:</strong> Python 3, Streamlit, <code>google-genai</code> SDK, Gemini 3.5 Flash, GitHub, Streamlit Community Cloud.</p>
+<p><strong>Tools:</strong> Python 3, Streamlit, <code>google-genai</code> and <code>groq</code> SDKs, Gemini 3.5 Flash, gpt-oss-120b (Groq), GitHub, Streamlit Community Cloud. All evaluation numbers come from <code>gemini-3.5-flash</code>; the deployed app now runs on <code>openai/gpt-oss-120b</code> through the free Groq API, because on 24 Nov 2026 Gemini (<code>gemini-3.5-flash</code> and <code>gemini-3.5-flash-lite</code>) kept returning 503 "high demand" errors.</p>
 <h2>3. Prompt design</h2>
 <ul>
 <li><strong>Role prompting:</strong> "CodeBuddy, a patient teaching assistant for first-year B.Tech students" sets the audience and tone (simple English, at most 30 words per field, explain terms).</li>
