@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-24
+- Deployed app: added the missing `GEMINI_API_KEY` secret on Streamlit Cloud; the pipeline now also retries on 504 errors.
+- Switched the app model to `gemini-3.5-flash-lite`, because `gemini-3.5-flash` kept returning 503 (high demand). The evaluation results in `test-data/results/` are still the `gemini-3.5-flash` runs.
+- Recorded the reel from real runs of the deployed app (`tools/reel/`).
+
 ## 2026-11-22 (evening)
 - Built `codebuddy/prompts.py`, `codebuddy/pipeline.py` (validator, ast syntax pre-check, P1, schema check + retry, P2 Hint Guard), `app.py` (Streamlit) and `eval/run_eval.py`.
 - Switched the model to `gemini-3.5-flash`: `gemini-2.5-flash` returns 404 for new API keys, and `gemini-3.8-flash` and `gemini-3.7-flash` returned 503 (high demand).

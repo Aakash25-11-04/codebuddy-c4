@@ -12,12 +12,12 @@ The student pastes code (and an optional question) into a Streamlit web app. A P
 
 1. **Validator (code):** rejects empty input or code over 150 lines / 6000 characters, with no model call.
 2. **Syntax pre-check (code):** `ast.parse` reports the exact SyntaxError/IndentationError line. The student's code is parsed, never executed.
-3. **P1 Reviewer (LLM):** Gemini 3.5 Flash, temperature 0.2, JSON mode. Role prompt, 10 rules, 2 few-shot examples and a fixed schema. The output is checked against the schema and retried once if invalid.
-4. **P2 Hint Guard (LLM):** Gemini 3.5 Flash, temperature 0, JSON mode. Rewrites any field that states the fix as a guiding question and records `leaks_found`.
+3. **P1 Reviewer (LLM):** Gemini 3.5 Flash (Flash-Lite in the deployed app; see below), temperature 0.2, JSON mode. Role prompt, 10 rules, 2 few-shot examples and a fixed schema. The output is checked against the schema and retried once if invalid.
+4. **P2 Hint Guard (LLM):** the same model as P1, temperature 0, JSON mode. Rewrites any field that states the fix as a guiding question and records `leaks_found`.
 
 The app shows each issue as a card with the hint hidden behind a button. The API key is kept in Streamlit secrets, never in the repository.
 
-**Tools:** Python 3, Streamlit, `google-genai` SDK, Gemini 3.5 Flash, GitHub, Streamlit Community Cloud.
+**Tools:** Python 3, Streamlit, `google-genai` SDK, Gemini 3.5 Flash, GitHub, Streamlit Community Cloud. All evaluation numbers come from `gemini-3.5-flash`; the deployed app switched from `gemini-3.5-flash` to `gemini-3.5-flash-lite` on 24 Nov 2026, because `gemini-3.5-flash` kept returning 503 (high demand).
 
 ## 3. Prompt design
 
